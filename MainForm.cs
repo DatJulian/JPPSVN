@@ -207,11 +207,18 @@ namespace JPPSVN {
             });
         }
 
+        private void HandleExecutionFinished(CopyProjectTask task, RunWorkerCompletedEventArgs args) {
+            if(args.Error != null) {
+                MessageBox.Show(this, args.Error.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } else if(!args.Cancelled)
+                MakeProjectForm(task.Destination).Show();
+        }
+
         private void codeTestsToolStripMenuItem_Click(object sender, EventArgs e) {
             if(taskDispatcher.IsTaskRunning) return;
             var task = repositoryActions.CopyAllTask(toolStripStatusLabel, MakeOutputPath());
             task.RunWorkerCompleted += (object s, RunWorkerCompletedEventArgs ev) => {
-                MakeProjectForm(task.Destination).Show();
+                HandleExecutionFinished(task, ev);
             };
             taskDispatcher.Run(task);
         }
@@ -220,7 +227,7 @@ namespace JPPSVN {
             if(taskDispatcher.IsTaskRunning) return;
             var task = repositoryActions.CopyProjectTask(toolStripStatusLabel, MakeOutputPath());
             task.RunWorkerCompleted += (object s, RunWorkerCompletedEventArgs ev) => {
-                MakeProjectForm(task.Destination).Show();
+                HandleExecutionFinished(task, ev);
             };
             taskDispatcher.Run(task);
         }
