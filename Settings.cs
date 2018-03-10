@@ -20,17 +20,7 @@ namespace JPPSVN {
             get => outputFolderSelectionComponent.Path;
             set => outputFolderSelectionComponent.Path = value;
         }
-
-        public bool CreateProjectSubfolder {
-            get => createProjectSubfolderCheckBox.Checked;
-            set => createProjectSubfolderCheckBox.Checked = value;
-        }
-
-        public bool CreateStudentSubfolder {
-            get => createStudentSubfolderCheckBox.Checked;
-            set => createStudentSubfolderCheckBox.Checked = value;
-        }
-
+        
         public string IdeaFolder {
             get => ideaFolderSelectionComponent.Path;
             set => ideaFolderSelectionComponent.Path = value;
@@ -48,8 +38,6 @@ namespace JPPSVN {
         private void LoadFromSettings(Properties.Settings settings) {
             RepositoryFolder = settings.RepositoryFolder;
             OutputFolder = settings.OutputFolder;
-            CreateProjectSubfolder = settings.CreateProjectSubdir;
-            CreateStudentSubfolder = settings.CreateStudentSubdir;
             IdeaFolder = settings.IDEAPath;
             AutoFindIDEA = settings.AutoFindIDEA;
         }
@@ -57,8 +45,6 @@ namespace JPPSVN {
         private void SaveToSettings(Properties.Settings settings) {
             settings.RepositoryFolder = RepositoryFolder;
             settings.OutputFolder = OutputFolder;
-            settings.CreateProjectSubdir = CreateProjectSubfolder;
-            settings.CreateStudentSubdir = CreateStudentSubfolder;
             settings.IDEAPath = IdeaFolder;
             settings.AutoFindIDEA = AutoFindIDEA;
         }

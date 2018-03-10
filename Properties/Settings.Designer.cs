@@ -37,18 +37,6 @@ namespace JPPSVN.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool CreateStudentSubdir {
-            get {
-                return ((bool)(this["CreateStudentSubdir"]));
-            }
-            set {
-                this["CreateStudentSubdir"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string LastUser {
             get {
@@ -92,18 +80,6 @@ namespace JPPSVN.Properties {
             }
             set {
                 this["Project"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool CreateProjectSubdir {
-            get {
-                return ((bool)(this["CreateProjectSubdir"]));
-            }
-            set {
-                this["CreateProjectSubdir"] = value;
             }
         }
         

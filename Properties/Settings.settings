@@ -5,9 +5,6 @@
     <Setting Name="OutputFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="CreateStudentSubdir" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="LastUser" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
@@ -19,9 +16,6 @@
     </Setting>
     <Setting Name="Project" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="CreateProjectSubdir" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="RepositoryFolder" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

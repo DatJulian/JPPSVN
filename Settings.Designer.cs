@@ -28,8 +28,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.repositoryFolderSelectionComponent = new JPPSVN.FolderSelectionComponent();
-            this.createProjectSubfolderCheckBox = new System.Windows.Forms.CheckBox();
-            this.createStudentSubfolderCheckBox = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.ideaFolderSelectionComponent = new JPPSVN.FolderSelectionComponent();
             this.ideaFindAutomaticCheckBox = new System.Windows.Forms.CheckBox();
@@ -60,21 +58,19 @@
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.repositoryFolderSelectionComponent, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.createProjectSubfolderCheckBox, 1, 3);
-            this.tableLayoutPanel1.Controls.Add(this.createStudentSubfolderCheckBox, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.ideaFolderSelectionComponent, 1, 4);
-            this.tableLayoutPanel1.Controls.Add(this.ideaFindAutomaticCheckBox, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.ideaFolderSelectionComponent, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.ideaFindAutomaticCheckBox, 1, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 6);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(294, 156);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(294, 110);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // outputFolderSelectionComponent
@@ -103,11 +99,14 @@
             this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.outputFolderSelectionComponent.Location = new System.Drawing.Point(98, 0);
             this.outputFolderSelectionComponent.Margin = new System.Windows.Forms.Padding(0);
             this.outputFolderSelectionComponent.Name = "outputFolderSelectionComponent";
             this.outputFolderSelectionComponent.Path = "";
             this.outputFolderSelectionComponent.RowCount = 2;
+            this.outputFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.outputFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.outputFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.outputFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -169,6 +168,8 @@
             this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.repositoryFolderSelectionComponent.Location = new System.Drawing.Point(98, 29);
             this.repositoryFolderSelectionComponent.Margin = new System.Windows.Forms.Padding(0);
             this.repositoryFolderSelectionComponent.Name = "repositoryFolderSelectionComponent";
@@ -184,37 +185,16 @@
             this.repositoryFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.repositoryFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.repositoryFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.repositoryFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.repositoryFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.repositoryFolderSelectionComponent.Size = new System.Drawing.Size(196, 29);
             this.repositoryFolderSelectionComponent.TabIndex = 0;
-            // 
-            // createProjectSubfolderCheckBox
-            // 
-            this.createProjectSubfolderCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.createProjectSubfolderCheckBox.AutoSize = true;
-            this.createProjectSubfolderCheckBox.Location = new System.Drawing.Point(115, 84);
-            this.createProjectSubfolderCheckBox.Name = "createProjectSubfolderCheckBox";
-            this.createProjectSubfolderCheckBox.Size = new System.Drawing.Size(176, 17);
-            this.createProjectSubfolderCheckBox.TabIndex = 3;
-            this.createProjectSubfolderCheckBox.Text = "Erstelle Unterordner für Projekte";
-            this.createProjectSubfolderCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // createStudentSubfolderCheckBox
-            // 
-            this.createStudentSubfolderCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.createStudentSubfolderCheckBox.AutoSize = true;
-            this.createStudentSubfolderCheckBox.Location = new System.Drawing.Point(105, 61);
-            this.createStudentSubfolderCheckBox.Name = "createStudentSubfolderCheckBox";
-            this.createStudentSubfolderCheckBox.Size = new System.Drawing.Size(186, 17);
-            this.createStudentSubfolderCheckBox.TabIndex = 4;
-            this.createStudentSubfolderCheckBox.Text = "Erstelle Unterordner für Studenten";
-            this.createStudentSubfolderCheckBox.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 112);
+            this.label3.Location = new System.Drawing.Point(3, 66);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(92, 13);
             this.label3.TabIndex = 1;
@@ -250,11 +230,14 @@
             this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.ideaFolderSelectionComponent.Location = new System.Drawing.Point(98, 104);
+            this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.ideaFolderSelectionComponent.Location = new System.Drawing.Point(98, 58);
             this.ideaFolderSelectionComponent.Margin = new System.Windows.Forms.Padding(0);
             this.ideaFolderSelectionComponent.Name = "ideaFolderSelectionComponent";
             this.ideaFolderSelectionComponent.Path = "";
             this.ideaFolderSelectionComponent.RowCount = 2;
+            this.ideaFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.ideaFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.ideaFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.ideaFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -274,7 +257,7 @@
             // 
             this.ideaFindAutomaticCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.ideaFindAutomaticCheckBox.AutoSize = true;
-            this.ideaFindAutomaticCheckBox.Location = new System.Drawing.Point(154, 136);
+            this.ideaFindAutomaticCheckBox.Location = new System.Drawing.Point(154, 90);
             this.ideaFindAutomaticCheckBox.Name = "ideaFindAutomaticCheckBox";
             this.ideaFindAutomaticCheckBox.Size = new System.Drawing.Size(137, 17);
             this.ideaFindAutomaticCheckBox.TabIndex = 5;
@@ -405,8 +388,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private FolderSelectionComponent repositoryFolderSelectionComponent;
-        private System.Windows.Forms.CheckBox createProjectSubfolderCheckBox;
-        private System.Windows.Forms.CheckBox createStudentSubfolderCheckBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button cancelButton;
