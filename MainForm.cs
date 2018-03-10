@@ -14,9 +14,6 @@ namespace JPPSVN {
         private TaskDispatcher<StatusBackgroundWorker> taskDispatcher;
         private RepositoryActions repositoryActions;
 
-        private string outputFolder, repositoryFolder;
-        private bool shouldCreateStudentFolder, shouldCreateProjectFolder;
-
         #region Properties
         
         public string Revision {
@@ -35,11 +32,11 @@ namespace JPPSVN {
         }
 
         public string RepositoryFolder {
-            get => repositoryFolder;
+            get; set;
         }
 
         public string OutputFolder {
-            get => outputFolder;
+            get; set;
         }
 
         public string UserName {
@@ -64,17 +61,14 @@ namespace JPPSVN {
         }
 
         private void LoadVarsFromSettings(Properties.Settings settings) {
-            repositoryFolder = settings.RepositoryFolder;
-            outputFolder = settings.OutputFolder;
-            shouldCreateStudentFolder = settings.CreateStudentSubdir;
-            shouldCreateProjectFolder = settings.CreateProjectSubdir;
+            RepositoryFolder = settings.RepositoryFolder;
+            OutputFolder = settings.OutputFolder;
         }
 
         private void SaveToSettings(Properties.Settings settings) {
             settings.LastRevision = Revision;
             settings.LastUser = User;
             settings.Project = Project;
-            //settings.OpenIDEA = ShouldOpenIDE;
         }
 
         protected override void OnLoad(EventArgs e) {
@@ -100,8 +94,8 @@ namespace JPPSVN {
                 new PropertyReference<string>(() => revisionTextBox.Text),
                 new PropertyReference<string>(() => userTextBox.Text),
                 new PropertyReference<string>(() => projectTextBox.Text),
-                repositoryFolder,
-                outputFolder);
+                RepositoryFolder,
+                OutputFolder);
 
             taskDispatcher = new TaskDispatcher<StatusBackgroundWorker>();
         }
