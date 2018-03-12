@@ -28,6 +28,11 @@ namespace JPPSVN {
             return null;
         }
 
+        public static string FindExe(bool autoFind, string orElse) {
+            string path = autoFind ? FindPath() : orElse;
+            return string.IsNullOrEmpty(path) ? null : FindExe(path);
+        }
+
         public enum IDEAOpenFaileCause {
             Success,
             FileNotFound,
