@@ -13,9 +13,9 @@ namespace JPPSVN {
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if(!Validation.IsValidRepositoryFolder(Properties.Settings.Default.RepositoryFolder)) {
-                Application.Run(new SourceFolderSelectionForm());
-            }
+            //if(!Validation.IsValidRepositoryFolder(Properties.Settings.Default.RepositoryFolder)) {
+            //    Application.Run(new SourceFolderSelectionForm());
+            //}
             Application.Run(new MainForm());
         }
     }

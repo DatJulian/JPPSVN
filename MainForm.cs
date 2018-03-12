@@ -38,6 +38,10 @@ namespace JPPSVN {
             get; set;
         }
 
+        public string IDEAPath {
+            get; set;
+        }
+
         public string UserName {
             get => nameLabel.Text;
             set => nameLabel.Text = value;
@@ -59,9 +63,24 @@ namespace JPPSVN {
             Project = settings.Project;
         }
 
-        private void LoadVarsFromSettings(Properties.Settings settings) {
+        private bool LoadVarsFromSettings(Properties.Settings settings) {
             RepositoryFolder = settings.RepositoryFolder;
+
+            if(!Validation.Main.IsValidRepositoryFolder(RepositoryFolder))
+                return false;
+
             OutputFolder = settings.OutputFolder;
+
+            if(!Validation.Main.IsValidOutputFolder(OutputFolder))
+                return false;
+
+            IDEAPath = IntelliJIDEA.FindExe(settings.AutoFindIDEA, settings.IDEAPath);
+
+            if(!Validation.Main.IsValidIDEA(IDEAPath))
+                return false;
+            intelliJIDEA = new IntelliJIDEA(IDEAPath);
+            
+            return true;
         }
 
         private void SaveToSettings(Properties.Settings settings) {
@@ -74,15 +93,9 @@ namespace JPPSVN {
             base.OnLoad(e);
 
             Properties.Settings settings = Properties.Settings.Default;
-            LoadVarsFromSettings(settings);
-
-            string path = IntelliJIDEA.FindExe(settings.AutoFindIDEA ? IntelliJIDEA.FindPath() : settings.IDEAPath);
-            if(path == null) {
-                MessageBox.Show("IntelliJ konnte nicht gefunden werden!");
-            } else {
-                intelliJIDEA = new IntelliJIDEA(path);
-            }
-
+            if(!LoadVarsFromSettings(settings) && (new Settings().ShowDialog() != DialogResult.OK || !LoadVarsFromSettings(Properties.Settings.Default)))
+                Close();
+            
             jppExtractor = new PathBuilder(RepositoryFolder);
 
             LoadGUIFromSettings(settings);
@@ -124,9 +137,7 @@ namespace JPPSVN {
         #region UI Events
 
         private void einstellungenToolStripMenuItem_Click(object sender, EventArgs e) {
-            Settings settings = new Settings();
-            
-            if(settings.ShowDialog() == DialogResult.OK)
+            if(new Settings().ShowDialog() == DialogResult.OK)
                 LoadVarsFromSettings(Properties.Settings.Default);
         }
 
