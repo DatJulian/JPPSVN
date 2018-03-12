@@ -21,7 +21,7 @@ namespace JPPSVN {
             set => outputFolderSelectionComponent.Path = value;
         }
         
-        public string IdeaFolder {
+        public string IDEAFolder {
             get => ideaFolderSelectionComponent.Path;
             set => ideaFolderSelectionComponent.Path = value;
         }
@@ -38,14 +38,14 @@ namespace JPPSVN {
         private void LoadFromSettings(Properties.Settings settings) {
             RepositoryFolder = settings.RepositoryFolder;
             OutputFolder = settings.OutputFolder;
-            IdeaFolder = settings.IDEAPath;
+            IDEAFolder = settings.IDEAPath;
             AutoFindIDEA = settings.AutoFindIDEA;
         }
 
         private void SaveToSettings(Properties.Settings settings) {
             settings.RepositoryFolder = RepositoryFolder;
             settings.OutputFolder = OutputFolder;
-            settings.IDEAPath = IdeaFolder;
+            settings.IDEAPath = IDEAFolder;
             settings.AutoFindIDEA = AutoFindIDEA;
         }
 
@@ -57,7 +57,7 @@ namespace JPPSVN {
             LoadFromSettings(settings);
             
             if(AutoFindIDEA)
-                IdeaFolder = IntelliJIDEA.FindPath();
+                IDEAFolder = IntelliJIDEA.FindPath();
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e) {
