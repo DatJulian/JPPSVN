@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpSvn;
+using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
@@ -35,7 +36,7 @@ namespace JPPSVN {
             if(!Directory.Exists(path)) {
                 MessageBox.Show("Der ausgewählte Repository-Ordner existiert nicht.");
                 return false;
-            } else if(!new SubversionHelper().IsSVNFolder(path)) {
+            } else if(!SubversionHelper.IsSVNFolder(path)) {
                 MessageBox.Show("Der ausgewählte Repository-Ordner ist keine SVN repository.");
                 return false;
             }
@@ -77,19 +78,18 @@ namespace JPPSVN {
                 
                 nextButton.Enabled = false;
                 worker = new BackgroundWorker();
-                    
+
                 worker.DoWork += (object s, DoWorkEventArgs args) => {
                     bool b;
-                    using(SubversionHelper sub = new SubversionHelper()) {
-                        EventHandler<SharpSvn.SvnProgressEventArgs> clientprogress = (object sender, SharpSvn.SvnProgressEventArgs e) => {
+                    using(SvnClient client = new SvnClient()) {
+
+                        client.Progress += (object sender, SvnProgressEventArgs e) => {
                             worker.ReportProgress((int)e.Progress, e);
                         };
 
-                        sub.Client.Progress += clientprogress;
-                        SharpSvn.SvnUpdateResult res;
                         try {
-                            b = sub.Checkout(url, path, out res);
-                        } catch(SharpSvn.SvnException e) {
+                            b = client.CheckOut(SvnUriTarget.FromString(url), path, out SvnUpdateResult res);
+                        } catch(SvnException e) {
                             MessageBox.Show("An SvnException has occured: " + e.Message);
                         } catch(Exception e) {
                             MessageBox.Show("An Exception has occured: " + e.ToString());

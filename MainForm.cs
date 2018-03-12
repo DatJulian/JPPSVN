@@ -8,7 +8,6 @@ using System.Linq;
 
 namespace JPPSVN {
     public partial class MainForm : Form {
-        private SubversionHelper subversionHelper;
         private PathBuilder jppExtractor;
         private IntelliJIDEA intelliJIDEA;
         private TaskDispatcher<StatusBackgroundWorker> taskDispatcher;
@@ -84,8 +83,6 @@ namespace JPPSVN {
                 intelliJIDEA = new IntelliJIDEA(path);
             }
 
-            subversionHelper = new SubversionHelper();
-
             jppExtractor = new PathBuilder(RepositoryFolder);
 
             LoadGUIFromSettings(settings);
@@ -106,8 +103,6 @@ namespace JPPSVN {
             Properties.Settings settings = Properties.Settings.Default;
             SaveToSettings(settings);
             settings.Save();
-
-            subversionHelper.Dispose();
         }
 
         static StatusBackgroundWorker OpenExplorerAfter(CopyProjectTask task) {
@@ -170,7 +165,7 @@ namespace JPPSVN {
             StatusBackgroundWorker task = new StatusBackgroundWorker(toolStripStatusLabel);
             task.DoWork += (object o, DoWorkEventArgs ev) => {
                 task.ReportStatus("Aktualisiere Ordner \"" + path + "\"");
-                subversionHelper.Update(path, revision);
+                SubversionHelper.Update(path, revision);
             };
             taskDispatcher.Run(task);
         }

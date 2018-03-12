@@ -16,27 +16,26 @@ namespace JPPSVN {
             return string.IsNullOrEmpty(revision) ? null : new SvnRevision(long.Parse(revision));
         }
 
-        public bool IsSVNFolder(SvnTarget path) {
+        public static bool IsSVNFolder(SvnTarget path) {
             Collection<SvnInfoEventArgs> svnInfo;
-            
-            return client.GetInfo(
-                path, 
-                new SvnInfoArgs() /*{ ThrowOnError = false }*/,
-                out svnInfo
-            );;
+            using(SvnClient client = new SvnClient()) {
+                return client.GetInfo(
+                    path, 
+                    new SvnInfoArgs() { ThrowOnError = false },
+                    out svnInfo
+                );
+            }
         }
 
-        public bool IsSVNFolder(string path) {
+        public static bool IsSVNFolder(string path) {
             return IsSVNFolder(SvnTarget.FromString(path));
         }
 
         public bool Checkout(SvnUriTarget source, string path, string revision, out SvnUpdateResult result) {
-            SvnCheckOutArgs args = new SvnCheckOutArgs {
+            return client.CheckOut(source, path, new SvnCheckOutArgs {
                 Revision = MakeRevision(revision),
                 IgnoreExternals = true
-            };
-            
-            return client.CheckOut(source, path, args, out result);
+            }, out result);
         }
 
         public bool Checkout(string source, string path, string revision, out SvnUpdateResult result) {
@@ -47,13 +46,13 @@ namespace JPPSVN {
             return Checkout(new SvnUriTarget(source), path, null, out result);
         }
         
-        public bool Update(string path, string revision) {
-            SvnUpdateArgs args = new SvnUpdateArgs {
-                Revision = MakeRevision(revision),
-                IgnoreExternals = true
-            };
-
-            return client.Update(path, args);
+        public static bool Update(string path, string revision) {
+            using(SvnClient client = new SvnClient()) {
+                return client.Update(path, new SvnUpdateArgs {
+                    Revision = MakeRevision(revision),
+                    IgnoreExternals = true
+                });
+            }
         }
 
         #region IDisposable Support
