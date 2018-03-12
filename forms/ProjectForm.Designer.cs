@@ -112,7 +112,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 56);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::JPPSVN.Properties.Resources.Icon32;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(300, 95);
             this.MinimizeBox = false;

@@ -34,8 +34,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SharpSvn">
@@ -146,6 +145,8 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="Resources\Icon.ico" />
+    <Content Include="Icon.ico" />
+    <Content Include="Icon32.ico" />
     <Content Include="Resources\Icon32.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
