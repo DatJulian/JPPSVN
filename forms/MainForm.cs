@@ -142,18 +142,34 @@ namespace JPPSVN {
         }
 
         private void ordnerToolStripMenuItem_Click(object sender, EventArgs e) {
-            if(HasUser)
-                Explorer.Open(jppExtractor.GetUserProjects(User));
+            if(HasUser) {
+                string path = jppExtractor.GetUserProjects(User);
+                if(Directory.Exists(path))
+                    Explorer.Open(path);
+                else
+                    MessageBox.Show("Ordner von \"" + User + "\" konnte nicht gefunden werden.");
+            }
         }
 
         private void projektordnerToolStripMenuItem_Click(object sender, EventArgs e) {
-            if(HasUser && HasProject)
-                Explorer.Open(jppExtractor.GetUserProject(User, Project));
+            if(HasUser && HasProject) {
+                string path = jppExtractor.GetUserProject(User, Project);
+                if(Directory.Exists(path))
+                    Explorer.Open(path);
+                else
+                    MessageBox.Show("Projektordner des Projekts \"" + Project + "\" von \"" + User + "\" konnte nicht gefunden werden.");
+            }
         }
 
         private void ordnerToolStripMenuItem2_Click(object sender, EventArgs e) {
-            if(HasProject)
-                Explorer.Open(jppExtractor.GetProject(Project));
+            if(HasProject) {
+                string path = jppExtractor.GetProject(Project);
+                if(Directory.Exists(path))
+                    Explorer.Open(path);
+                else
+                    MessageBox.Show("Projektordner des Projekts \"" + Project + "\" konnte nicht gefunden werden.");
+            }
+                
         }
 
         private string MakeOutputPath() {
@@ -189,7 +205,11 @@ namespace JPPSVN {
 
         private void updateToolStripMenuItem_Click(object sender, EventArgs e) {
             if(!taskDispatcher.IsTaskRunning && HasProject) {
-                updateFolder(jppExtractor.GetProject(Project), null);
+                string path = jppExtractor.GetProject(Project);
+                if(Directory.Exists(path))
+                    updateFolder(path, null);
+                else
+                    MessageBox.Show(this, "Projektordner des Projekts \"" + Project + "\" konnte nicht gefunden werden.", "Fehler");
             }
         }
 
