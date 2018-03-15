@@ -34,10 +34,9 @@ namespace JPPSVN {
             }
 
             ReportStatus("Kopiere Projekt");
-            DirectoryCopy.CopyIgnoreNotExists(
-                Path.Combine(ProjectPath, "src"),
-                Path.Combine(Destination, "src", "main", "java"),
-                true);
+            string srcPath = Path.Combine(ProjectPath, "src");
+            string outDir = MavenStructure.IsDirectoryStructure(srcPath) ? Path.Combine(Destination, "src") : Path.Combine(Destination, "src", "main", "java");
+            DirectoryCopy.CopyIgnoreNotExists(srcPath, outDir, true);
         }
         
         protected override void OnDoWork(DoWorkEventArgs e) {

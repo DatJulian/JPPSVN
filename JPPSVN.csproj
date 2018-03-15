@@ -61,6 +61,7 @@
     <Compile Include="forms\ProjectForm.Designer.cs">
       <DependentUpon>ProjectForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MavenStructure.cs" />
     <Compile Include="PropertyReference.cs" />
     <Compile Include="TaskDispatcher.cs" />
     <Compile Include="tasks\CopyFolderTask.cs">
