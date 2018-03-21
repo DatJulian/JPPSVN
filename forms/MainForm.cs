@@ -107,6 +107,12 @@ namespace JPPSVN {
                 RepositoryFolder,
                 OutputFolder);
 
+            projectTextBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            projectTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            var autocomplete = new AutoCompleteStringCollection();
+            autocomplete.AddRange(jppExtractor.GetProjects());
+            projectTextBox.AutoCompleteCustomSource = autocomplete;
+
             taskDispatcher = new TaskDispatcher<StatusBackgroundWorker>();
         }
 

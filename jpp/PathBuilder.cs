@@ -66,5 +66,16 @@ namespace JPPSVN {
             string path = GetUserProject(snummer, project);
             DirectoryCopy.Copy(path, target, true);
         }
+
+        public string[] GetProjects() {
+            DirectoryInfo path = new DirectoryInfo(projectsPath);
+            if(!path.Exists) return new string[0];
+            DirectoryInfo[] dirs = path.GetDirectories();
+            string[] res = new string[dirs.Length];
+            for(int i = 0; i < dirs.Length; i++) {
+                res[i] = dirs[i].Name;
+            }
+            return res;
+        }
     }
 }
