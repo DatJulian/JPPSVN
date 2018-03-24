@@ -30,9 +30,7 @@ namespace JPPSVN {
             Explorer.Open(Args.Folder);
         }
 
-        private void cleanupButton_Click(object sender, EventArgs e) {
-            if(taskDispatcher.IsTaskRunning) return;
-
+        private void Cleanup() {
             BackgroundWorker task = new BackgroundWorker();
             task.DoWork += (object o, DoWorkEventArgs ev) => {
                 if(Directory.Exists(Args.Folder)) Directory.Delete(Args.Folder, true);
@@ -43,13 +41,26 @@ namespace JPPSVN {
             taskDispatcher.Run(task);
         }
 
+        private static string MakeTitle(Data data) {
+            string res = data.UserName + " (" + data.Project;
+            if(!string.IsNullOrEmpty(data.Revision))
+                res += " Revision " + data.Revision;
+            res += ")";
+            return res;
+        }
+
+        private void cleanupButton_Click(object sender, EventArgs e) {
+            Cleanup();
+        }
+        
         private void ProjectForm_Load(object sender, EventArgs e) {
             taskDispatcher = new TaskDispatcher<BackgroundWorker>();
-            string res = Args.Data.UserName + " (" + Args.Data.Project;
-            if(!string.IsNullOrEmpty(Args.Data.Revision))
-                res += " Revision " + Args.Data.Revision;
-            res += ")";
-            Text = res;
+            
+            Text = MakeTitle(Args.Data);
+        }
+
+        private void ProjectForm_FormClosing(object sender, FormClosingEventArgs e) {
+            Cleanup();
         }
     }
 }
