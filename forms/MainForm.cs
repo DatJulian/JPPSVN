@@ -187,7 +187,7 @@ namespace JPPSVN {
                 string path = MakeOutputPath();
                 StatusBackgroundWorker task = new StatusBackgroundWorker(toolStripStatusLabel);
                 task.DoWork += (object o, DoWorkEventArgs ev) => {
-                    task.ReportStatus("Lösche Ordner \"" + path + "\"");
+                    task.Status = "Lösche Ordner \"" + path + "\"";
                     if(Directory.Exists(path)) Directory.Delete(path, true);
                 };
                 taskDispatcher.Run(task);
@@ -197,7 +197,7 @@ namespace JPPSVN {
         private void updateFolder(string path, string revision) {
             StatusBackgroundWorker task = new StatusBackgroundWorker(toolStripStatusLabel);
             task.DoWork += (object o, DoWorkEventArgs ev) => {
-                task.ReportStatus("Aktualisiere Ordner \"" + path + "\"");
+                task.Status = "Aktualisiere Ordner \"" + path + "\"";
                 SubversionHelper.Update(path, revision);
             };
             taskDispatcher.Run(task);

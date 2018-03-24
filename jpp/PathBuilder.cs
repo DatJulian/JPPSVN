@@ -8,8 +8,8 @@ namespace JPPSVN {
             CLEARNAME_PATH_2 = "clearname",
             UNKNOWN_STUDENT_NAME = "unbekannt",
             USERPROJECTS_PATH = "users",
-            PROJECTS_PATH = "assignments",
-            EVIL_STRING = "pabs";
+            PROJECTS_PATH = "assignments";
+
         private static readonly Regex NAME_REGEX = new Regex("^(.*) - [a-z0-9]+$");
         
         private string basePath, clearnamePath, projectsPath, userProjectsPath;
@@ -54,12 +54,6 @@ namespace JPPSVN {
 
         public string GetUserProject(string user, string project) {
             return Path.Combine(GetUserProjects(user), project);
-        }
-
-        public static void RewriteFile(string path) {
-            File.WriteAllLines(path + ".tmp", File.ReadLines(path).Where(lineInt => !lineInt.Contains(EVIL_STRING)));
-            File.Delete(path);
-            File.Move(path + ".tmp", path);
         }
 
         public void CopyProject(string snummer, string project, string target) {

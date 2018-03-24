@@ -65,9 +65,7 @@
     <Compile Include="MavenStructure.cs" />
     <Compile Include="PropertyReference.cs" />
     <Compile Include="TaskDispatcher.cs" />
-    <Compile Include="tasks\CopyFolderTask.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="tasks\CopyFolderTask.cs" />
     <Compile Include="tasks\CopyProjectAndTestsTask.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -108,6 +106,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="SubversionHelper.cs" />
+    <Compile Include="tasks\Tasks.cs" />
     <Compile Include="Validation.cs" />
     <EmbeddedResource Include="forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

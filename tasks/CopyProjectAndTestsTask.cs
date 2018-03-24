@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using JPPSVN.tasks;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace JPPSVN {
@@ -11,11 +12,7 @@ namespace JPPSVN {
         public string TestSource { get; set; }
 
         protected void CopyTests() {
-            ReportStatus("Kopiere Tests");
-            DirectoryCopy.Copy(TestSource, Destination, true);
-
-            ReportStatus("Schreibe build.gradle");
-            PathBuilder.RewriteFile(Destination + "\\build.gradle");
+            Tasks.CopyTests(this, TestSource, Destination);
         }
 
         protected override void OnDoWork(DoWorkEventArgs e) {

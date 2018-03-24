@@ -1,4 +1,5 @@
-﻿using SharpSvn;
+﻿using JPPSVN.tasks;
+using SharpSvn;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -17,26 +18,7 @@ namespace JPPSVN {
         }
 
         protected void CopyProject() {
-            if(Directory.Exists(Destination)) {
-                ReportStatus("Lösche alten Ordner");
-                Directory.Delete(Destination, true);
-            }
-
-            ReportStatus("Erstelle Ordner");
-            Directory.CreateDirectory(Destination);
-
-            ReportStatus("Aktualisiere Projekt");
-            using(SvnClient client = new SvnClient()) {
-                client.Update(ProjectPath, new SvnUpdateArgs {
-                    Revision = SubversionHelper.MakeRevision(Revision),
-                    IgnoreExternals = true
-                });
-            }
-
-            ReportStatus("Kopiere Projekt");
-            string srcPath = Path.Combine(ProjectPath, "src");
-            string outDir = MavenStructure.IsDirectoryStructure(srcPath) ? Path.Combine(Destination, "src") : Path.Combine(Destination, "src", "main", "java");
-            DirectoryCopy.CopyIgnoreNotExists(srcPath, outDir, true);
+            Tasks.CopyProject(this, ProjectPath, Revision, Destination);
         }
         
         protected override void OnDoWork(DoWorkEventArgs e) {

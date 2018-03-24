@@ -5,6 +5,12 @@ using System.Windows.Forms;
 namespace JPPSVN {
     class StatusBackgroundWorker : BackgroundWorker {
         public ToolStripStatusLabel Label { get; set; }
+
+        public string Status {
+            set {
+                ReportProgress(0, new ProgressInformation(value));
+            }
+        }
         
         public StatusBackgroundWorker(ToolStripStatusLabel label) {
             Label = label;
@@ -24,10 +30,6 @@ namespace JPPSVN {
         protected override void OnRunWorkerCompleted(RunWorkerCompletedEventArgs e) {
             base.OnRunWorkerCompleted(e);
             Label.Visible = false;
-        }
-
-        public void ReportStatus(string text) {
-            ReportProgress(0, new ProgressInformation(text));
         }
         
         public class ProgressInformation {
