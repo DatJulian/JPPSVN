@@ -116,7 +116,11 @@ namespace JPPSVN {
             projectTextBox.AutoCompleteCustomSource = autocomplete;
 
             taskDispatcher = new TaskDispatcher<StatusBackgroundWorker>();
-            taskDispatcher.Run(repositoryActions.StartupUpdate());
+            var worker = repositoryActions.StartupUpdate();
+            worker.RunWorkerCompleted += (object o, RunWorkerCompletedEventArgs ev) => {
+                if(ev.Error != null) HandleBackgroundException(ev.Error);
+            };
+            taskDispatcher.Run(worker);
         }
 
         protected override void OnClosing(CancelEventArgs e) {
@@ -154,6 +158,10 @@ namespace JPPSVN {
 
         private string MakeOutputPath() {
             return Path.Combine(OutputFolder, Project, User);
+        }
+
+        private void HandleBackgroundException(Exception e) {
+            MessageBox.Show(this, e.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         #region UI Events
@@ -244,7 +252,7 @@ namespace JPPSVN {
 
         private void HandleExecutionFinished(string destination, Data data, RunWorkerCompletedEventArgs args) {
             if(args.Error != null) {
-                MessageBox.Show(this, args.Error.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                HandleBackgroundException(args.Error);
             } else if(!args.Cancelled)
                 MakeProjectForm(destination, data).Show();
         }
