@@ -52,9 +52,9 @@ namespace JPPSVN {
         public string UserName {
             get => nameLabel.Text;
             set => nameLabel.Text = value;
-        } 
-        
-        private bool HasUser => !string.IsNullOrEmpty(User) && User.Length == 7;
+        }
+
+        private bool HasUser => User != null && User.Length == 7;
 
         private bool HasProject => !string.IsNullOrWhiteSpace(Project);
 
@@ -185,8 +185,7 @@ namespace JPPSVN {
                     Explorer.Open(path);
                 else
                     MessageBox.Show("Projektordner des Projekts \"" + Project + "\" konnte nicht gefunden werden.");
-            }
-                
+            }  
         }
 
         private string MakeOutputPath() {
