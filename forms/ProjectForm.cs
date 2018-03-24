@@ -6,10 +6,8 @@ using System.Windows.Forms;
 namespace JPPSVN {
     public partial class ProjectForm : Form {
         internal class ProjectFormArgs {
+            internal Data Data { get; set; }
             internal string Folder { get; set; }
-            internal string User { get; set; }
-            internal string Project { get; set; }
-            internal string Revision { get; set; }
             internal IntelliJIDEA IntelliJ { get; set; }
         }
 
@@ -47,9 +45,9 @@ namespace JPPSVN {
 
         private void ProjectForm_Load(object sender, EventArgs e) {
             taskDispatcher = new TaskDispatcher<BackgroundWorker>();
-            string res = Args.User + " (" + Args.Project;
-            if(!string.IsNullOrEmpty(Args.Revision))
-                res += " Revision " + Args.Revision;
+            string res = Args.Data.UserName + " (" + Args.Data.Project;
+            if(!string.IsNullOrEmpty(Args.Data.Revision))
+                res += " Revision " + Args.Data.Revision;
             res += ")";
             Text = res;
         }

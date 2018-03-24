@@ -7,6 +7,13 @@ using System.Windows.Forms;
 using System.Linq;
 
 namespace JPPSVN {
+    public class Data {
+        internal string User { get; set; }
+        internal string UserName { get; set; }
+        internal string Project { get; set; }
+        internal string Revision { get; set; }
+    }
+
     public partial class MainForm : Form {
         private PathBuilder jppExtractor;
         private IntelliJIDEA intelliJIDEA;
@@ -100,12 +107,7 @@ namespace JPPSVN {
 
             LoadGUIFromSettings(settings);
 
-            repositoryActions = new RepositoryActions(
-                new PropertyReference<string>(() => revisionTextBox.Text),
-                new PropertyReference<string>(() => userTextBox.Text),
-                new PropertyReference<string>(() => projectTextBox.Text),
-                RepositoryFolder,
-                OutputFolder);
+            repositoryActions = new RepositoryActions(toolStripStatusLabel, RepositoryFolder);
 
             projectTextBox.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             projectTextBox.AutoCompleteSource = AutoCompleteSource.CustomSource;
@@ -138,6 +140,15 @@ namespace JPPSVN {
             };
 
             return task;
+        }
+
+        public Data MakeSnapshot() {
+            return new Data() {
+                User = User,
+                UserName = UserName,
+                Project = Project,
+                Revision = Revision
+            };
         }
 
         #region UI Events
@@ -223,37 +234,39 @@ namespace JPPSVN {
             UserName = jppExtractor.ResolveUsername(userTextBox.Text);
         }
 
-        private ProjectForm MakeProjectForm(string destination) {
+        private ProjectForm MakeProjectForm(string destination, Data data) {
             return new ProjectForm(new ProjectForm.ProjectFormArgs() {
+                Data = data,
                 Folder = destination,
-                User = User,
-                Project = Project,
-                Revision = Revision,
                 IntelliJ = intelliJIDEA
             });
         }
 
-        private void HandleExecutionFinished(CopyProjectTask task, RunWorkerCompletedEventArgs args) {
+        private void HandleExecutionFinished(string destination, Data data, RunWorkerCompletedEventArgs args) {
             if(args.Error != null) {
                 MessageBox.Show(this, args.Error.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
             } else if(!args.Cancelled)
-                MakeProjectForm(task.Destination).Show();
+                MakeProjectForm(destination, data).Show();
         }
 
         private void codeTestsToolStripMenuItem_Click(object sender, EventArgs e) {
             if(taskDispatcher.IsTaskRunning) return;
-            var task = repositoryActions.CopyAllTask(toolStripStatusLabel, MakeOutputPath());
+            var path = MakeOutputPath();
+            var data = MakeSnapshot();
+            var task = repositoryActions.CopyAllTask(data, path);
             task.RunWorkerCompleted += (object s, RunWorkerCompletedEventArgs ev) => {
-                HandleExecutionFinished(task, ev);
+                HandleExecutionFinished(path, data, ev);
             };
             taskDispatcher.Run(task);
         }
 
         private void codeToolStripMenuItem_Click(object sender, EventArgs e) {
             if(taskDispatcher.IsTaskRunning) return;
-            var task = repositoryActions.CopyProjectTask(toolStripStatusLabel, MakeOutputPath());
+            var path = MakeOutputPath();
+            var data = MakeSnapshot();
+            var task = repositoryActions.CopyProjectTask(data, path);
             task.RunWorkerCompleted += (object s, RunWorkerCompletedEventArgs ev) => {
-                HandleExecutionFinished(task, ev);
+                HandleExecutionFinished(path, data, ev);
             };
             taskDispatcher.Run(task);
         }
