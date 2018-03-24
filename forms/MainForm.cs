@@ -118,7 +118,9 @@ namespace JPPSVN {
             taskDispatcher = new TaskDispatcher<StatusBackgroundWorker>();
             var worker = repositoryActions.StartupUpdate();
             worker.RunWorkerCompleted += (object o, RunWorkerCompletedEventArgs ev) => {
-                if(ev.Error != null) HandleBackgroundException(ev.Error);
+                if(ev.Error != null)
+                    HandleBackgroundException(ev.Error);
+                UserName = jppExtractor.ResolveUsername(userTextBox.Text);
             };
             taskDispatcher.Run(worker);
         }
