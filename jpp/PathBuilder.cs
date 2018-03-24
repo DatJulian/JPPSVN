@@ -12,25 +12,26 @@ namespace JPPSVN {
 
         private static readonly Regex NAME_REGEX = new Regex("^(.*) - [a-z0-9]+$");
         
-        private string basePath, clearnamePath, projectsPath, userProjectsPath;
-
-        public string BasePath => basePath;
+        public string BasePath { get; private set; }
+        public string ClearnamePath { get; private set; }
+        public string ProjectsPath { get; private set; }
+        public string UserProjectsPath { get; private set; }
 
         public PathBuilder(string path) {
-            basePath = path;
-            clearnamePath = Path.Combine(path, CLEARNAME_PATH_1, CLEARNAME_PATH_2);
-            projectsPath = Path.Combine(path, PROJECTS_PATH);
-            userProjectsPath = Path.Combine(path, USERPROJECTS_PATH);
+            BasePath = path;
+            ClearnamePath = Path.Combine(path, CLEARNAME_PATH_1, CLEARNAME_PATH_2);
+            ProjectsPath = Path.Combine(path, PROJECTS_PATH);
+            UserProjectsPath = Path.Combine(path, USERPROJECTS_PATH);
 
-            if(!Directory.Exists(basePath)) throw new DirectoryNotFoundException("Base directory \"" + basePath +  "\" not found!");
-            if(!Directory.Exists(clearnamePath)) throw new DirectoryNotFoundException("Clear name directory \"" + clearnamePath +  "\" not found!");
-            if(!Directory.Exists(projectsPath)) throw new DirectoryNotFoundException("Projects directory \"" + projectsPath +  "\" not found!");
-            if(!Directory.Exists(userProjectsPath)) throw new DirectoryNotFoundException("Userprojects directory \"" + userProjectsPath +  "\" not found!");
+            if(!Directory.Exists(BasePath)) throw new DirectoryNotFoundException("Base directory \"" + BasePath +  "\" not found!");
+            if(!Directory.Exists(ClearnamePath)) throw new DirectoryNotFoundException("Clear name directory \"" + ClearnamePath +  "\" not found!");
+            if(!Directory.Exists(ProjectsPath)) throw new DirectoryNotFoundException("Projects directory \"" + ProjectsPath +  "\" not found!");
+            if(!Directory.Exists(UserProjectsPath)) throw new DirectoryNotFoundException("Userprojects directory \"" + UserProjectsPath +  "\" not found!");
         }
 
         public string ResolveUsername(string user) {
             if(user == null || user.Length != 7) return UNKNOWN_STUDENT_NAME;
-            string[] arr = Directory.GetDirectories(clearnamePath, "*" + user, SearchOption.TopDirectoryOnly);
+            string[] arr = Directory.GetDirectories(ClearnamePath, "*" + user, SearchOption.TopDirectoryOnly);
             if(arr.Length == 0) return UNKNOWN_STUDENT_NAME;
             if(arr.Length > 1) return "Nicht eindeutig";
             string text = arr[0];
@@ -41,7 +42,7 @@ namespace JPPSVN {
         }
 
         public string GetProject(string project) {
-            return Path.Combine(projectsPath, project);
+            return Path.Combine(ProjectsPath, project);
         }
 
         public string GetProjectTests(string project) {
@@ -49,7 +50,7 @@ namespace JPPSVN {
         }
 
         public string GetUserProjects(string user) {
-            return Path.Combine(userProjectsPath, user);
+            return Path.Combine(UserProjectsPath, user);
         }
 
         public string GetUserProject(string user, string project) {
@@ -62,7 +63,7 @@ namespace JPPSVN {
         }
 
         public string[] GetProjects() {
-            DirectoryInfo path = new DirectoryInfo(projectsPath);
+            DirectoryInfo path = new DirectoryInfo(ProjectsPath);
             if(!path.Exists) return new string[0];
             DirectoryInfo[] dirs = path.GetDirectories();
             string[] res = new string[dirs.Length];
