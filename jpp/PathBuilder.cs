@@ -31,14 +31,14 @@ namespace JPPSVN {
 
         public string ResolveUsername(string user) {
             if(user == null || user.Length != 7) return UNKNOWN_STUDENT_NAME;
-            string[] arr = Directory.GetDirectories(ClearnamePath, "*" + user, SearchOption.TopDirectoryOnly);
-            if(arr.Length == 0) return UNKNOWN_STUDENT_NAME;
-            if(arr.Length > 1) return "Nicht eindeutig";
-            string text = arr[0];
-            int lastPath = text.LastIndexOf('\\') + 1;
-            text = text.Substring(lastPath, text.Length - lastPath);
-            Match m = NAME_REGEX.Match(text);
-            return m.Success ? m.Groups[1].Value : UNKNOWN_STUDENT_NAME;
+            DirectoryInfo dir = new DirectoryInfo(ClearnamePath);
+            if(!dir.Exists) return UNKNOWN_STUDENT_NAME;
+            DirectoryInfo[] dirs = dir.GetDirectories("*" + user);
+            if(dirs.Length == 0) return UNKNOWN_STUDENT_NAME;
+            if(dirs.Length > 1) return "Nicht eindeutig";
+            string text = dirs[0].Name;
+            int dash = text.LastIndexOf('-');
+            return dash != -1 ? text.Substring(0, dash - 1) : UNKNOWN_STUDENT_NAME;
         }
 
         public string GetProject(string project) {
