@@ -152,6 +152,10 @@ namespace JPPSVN {
             };
         }
 
+        private string MakeOutputPath() {
+            return Path.Combine(OutputFolder, Project, User);
+        }
+
         #region UI Events
 
         private void einstellungenToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -188,11 +192,7 @@ namespace JPPSVN {
                     MessageBox.Show("Projektordner des Projekts \"" + Project + "\" konnte nicht gefunden werden.");
             }  
         }
-
-        private string MakeOutputPath() {
-            return Path.Combine(OutputFolder, Project, User);
-        }
-
+        
         private void erstellteOrdnerLöschenToolStripMenuItem_Click(object sender, EventArgs e) {
             if(!taskDispatcher.IsTaskRunning && HasProject && HasUser) {
                 string path = MakeOutputPath();
