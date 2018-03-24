@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using JPPSVN.tasks;
+using System.Windows.Forms;
 
 namespace JPPSVN.jpp {
     class RepositoryActions {
@@ -10,9 +11,13 @@ namespace JPPSVN.jpp {
             Label = label;
             PathBuilder = new PathBuilder(repositoryFolder);
         }
-        
-        public static bool IsValidUser(string user) {
-            return user != null && user.Length == 7;
+
+        public StatusBackgroundWorker StartupUpdate() {
+            var worker = new StatusBackgroundWorker(Label);
+            worker.DoWork += (object sender, System.ComponentModel.DoWorkEventArgs e) => {
+                Tasks.StartupUpdate(worker, PathBuilder);
+            };
+            return worker;
         }
 
         public CopyProjectAndTestsTask CopyAllTask(Data data, string destination) {

@@ -116,6 +116,7 @@ namespace JPPSVN {
             projectTextBox.AutoCompleteCustomSource = autocomplete;
 
             taskDispatcher = new TaskDispatcher<StatusBackgroundWorker>();
+            taskDispatcher.Run(repositoryActions.StartupUpdate());
         }
 
         protected override void OnClosing(CancelEventArgs e) {

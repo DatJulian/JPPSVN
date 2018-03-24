@@ -13,7 +13,43 @@ namespace JPPSVN.tasks {
             File.Move(temp, path);
         }
 
+        public static void UpdateDir(string name, string revision = null) {
+            using(SvnClient client = new SvnClient()) {
+                client.Update(name, new SvnUpdateArgs {
+                    Revision = SubversionHelper.MakeRevision(revision),
+                    IgnoreExternals = true
+                });
+            }
+        }
+
+        public static void UpdateDirNonRecursive(string name) {
+            using(SvnClient client = new SvnClient()) {
+                client.Update(name, new SvnUpdateArgs {
+                    Depth = SvnDepth.Children,
+                    IgnoreExternals = true
+                });
+            }
+        }
+
+        public static void StartupUpdate(StatusBackgroundWorker worker, PathBuilder path) {
+            worker.Status = "Update clearnames";
+            UpdateDirNonRecursive(path.ClearnamePath);
+
+            //worker.Status = "Update Studentenprojekte";
+            //UpdateDirNonRecursive(path.UserProjectsPath);
+
+            //worker.Status = "Update Projekte";
+            //UpdateDirNonRecursive(path.ProjectsPath);
+        }
+
+        public static void ExternalLocation(string user) {
+
+        }
+
         public static void CopyTests(StatusBackgroundWorker worker, string testSource, string destination) {
+            worker.Status = "Update Tests";
+            UpdateDir(testSource);
+
             worker.Status = "Kopiere Tests";
             DirectoryCopy.Copy(testSource, destination, true);
 
@@ -31,12 +67,7 @@ namespace JPPSVN.tasks {
             Directory.CreateDirectory(destination);
 
             worker.Status = "Aktualisiere Projekt";
-            using(SvnClient client = new SvnClient()) {
-                client.Update(projectPath, new SvnUpdateArgs {
-                    Revision = SubversionHelper.MakeRevision(revision),
-                    IgnoreExternals = true
-                });
-            }
+            UpdateDir(projectPath, revision);
 
             worker.Status = "Kopiere Projekt";
             string srcPath = Path.Combine(projectPath, "src");
