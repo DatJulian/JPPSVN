@@ -12,7 +12,7 @@ namespace JPPSVN.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.5.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -25,7 +25,7 @@ namespace JPPSVN.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\JPPOut\\")]
         public string OutputFolder {
             get {
                 return ((string)(this["OutputFolder"]));
@@ -61,13 +61,13 @@ namespace JPPSVN.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string BaseUrl {
+        [global::System.Configuration.DefaultSettingValueAttribute("https://pabs.uni-wuerzburg.de/repos/ws17_pp")]
+        public string RepositoryURL {
             get {
-                return ((string)(this["BaseUrl"]));
+                return ((string)(this["RepositoryURL"]));
             }
             set {
-                this["BaseUrl"] = value;
+                this["RepositoryURL"] = value;
             }
         }
         
@@ -85,7 +85,7 @@ namespace JPPSVN.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\JPPTest\\")]
         public string RepositoryFolder {
             get {
                 return ((string)(this["RepositoryFolder"]));

@@ -3,8 +3,8 @@ using System.IO;
 
 namespace JPPSVN {
     internal static class MavenStructure {
-        private static readonly HashSet<string> MAIN_TEST_HS = new HashSet<string>(new string[] { "main", "test" }),
-            JAVA_RESOURCES_HS = new HashSet<string>(new string[] { "java", "resources" });
+        private static readonly HashSet<string> MAIN_TEST_HS = new HashSet<string>(new [] { "main", "test" }),
+            JAVA_RESOURCES_HS = new HashSet<string>(new[] { "java", "resources" });
 
         private static bool IsEmptyExceptDirs(string path, HashSet<string> dirsSet) {
             DirectoryInfo info = new DirectoryInfo(path);

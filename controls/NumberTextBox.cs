@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace JPPSVN {
-    class NumberTextBox : TextBox {
+	internal class NumberTextBox : TextBox {
         private bool isTextChanging = false;
 
         protected override void OnTextChanged(EventArgs e) {

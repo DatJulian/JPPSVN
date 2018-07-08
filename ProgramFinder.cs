@@ -1,12 +1,8 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JPPSVN {
-    static class ProgramFinder {
+	internal static class ProgramFinder {
         private const string UNINSTALL_REGFOLDER32 = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall",
             UNINSTALL_REGFOLDER64 = "SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall";
 

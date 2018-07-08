@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace JPPSVN {
-    class FolderSelectionComponent : TableLayoutPanel {
-        private Button button;
-        private TextBox textBox;
+	internal class FolderSelectionComponent : TableLayoutPanel {
+        private readonly Button button;
+        private readonly TextBox textBox;
 
         public TextBox TextBox => textBox;
 

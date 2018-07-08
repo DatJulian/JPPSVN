@@ -3,76 +3,73 @@ using System.IO;
 using System.Linq;
 
 namespace JPPSVN.tasks {
-    class Tasks {
-        public const string EVIL_STRING = "pabs";
+	internal class Tasks {
+		public const string EVIL_STRING = "pabs";
 
-        public static void RewriteGradleFile(string path) {
-            string temp = path + ".tmp";
-            File.WriteAllLines(temp, File.ReadLines(path).Where(line => !line.Contains(EVIL_STRING)));
-            File.Delete(path);
-            File.Move(temp, path);
-        }
+		public static void RewriteGradleFile(string path) {
+			string temp = path + ".tmp";
+			File.WriteAllLines(temp, File.ReadLines(path).Where(line => !line.Contains(EVIL_STRING)));
+			File.Delete(path);
+			File.Move(temp, path);
+		}
 
-        public static void UpdateDir(string name, string revision = null) {
-            using(SvnClient client = new SvnClient()) {
-                client.Update(name, new SvnUpdateArgs {
-                    Revision = SubversionHelper.MakeRevision(revision),
-                    IgnoreExternals = true
-                });
-            }
-        }
+		public static string[] GetSubDirectories(string path) {
+			DirectoryInfo dir = new DirectoryInfo(path);
+			if (!dir.Exists) return new string[0];
+			DirectoryInfo[] dirs = dir.GetDirectories();
+			string[] res = new string[dirs.Length];
+			for (int i = 0; i < dirs.Length; i++) {
+				res[i] = dirs[i].Name;
+			}
 
-        public static void UpdateDirNonRecursive(string name) {
-            using(SvnClient client = new SvnClient()) {
-                client.Update(name, new SvnUpdateArgs {
-                    Depth = SvnDepth.Children,
-                    IgnoreExternals = true
-                });
-            }
-        }
+			return res;
+		}
+		
+      public class StartupUpdateTask {
+			public SvnClient Client { get; }
+			public StatusBackgroundWorker Worker { get; }
+			public string RepositoryUrl { get; }
+			public PathBuilder PathBuilder { get; }
+			public ClearnameResolver ClearnameResolver { get; set; }
+			public string[] Projects { get; set; }
 
-        public static void StartupUpdate(StatusBackgroundWorker worker, PathBuilder path) {
-            worker.Status = "Update clearnames";
-            UpdateDirNonRecursive(path.ClearnamePath);
+			public StartupUpdateTask(SvnClient client, StatusBackgroundWorker worker, string repositoryURL, PathBuilder pathBuilder) {
+            Client = client;
+            Worker = worker;
+            RepositoryUrl = repositoryURL;
+	         PathBuilder = pathBuilder;
+         }
 
-            //worker.Status = "Update Studentenprojekte";
-            //UpdateDirNonRecursive(path.UserProjectsPath);
+			public void Execute() {
+				if (string.IsNullOrEmpty(PathBuilder.BasePath))
+					return;
 
-            //worker.Status = "Update Projekte";
-            //UpdateDirNonRecursive(path.ProjectsPath);
-        }
+				if (!SubversionHelper.IsSVNFolder(PathBuilder.BasePath))
+					Client.CheckOut(new SvnUriTarget(RepositoryUrl), PathBuilder.BasePath, new SvnCheckOutArgs { Depth = SvnDepth.Children });
+				
+				Worker.Status = "Update clearnames";
+				SubversionHelper.UpdateDirNonRecursive(Client, PathBuilder.ViewsPath);
+				SubversionHelper.UpdateDirNonRecursive(Client, PathBuilder.ClearnamePath);
+				
+				Client.GetProperty(new SvnPathTarget(PathBuilder.ClearnamePath), "svn:externals", out string property);
+				ClearnameResolver = ClearnameResolver.FromExternals(property);
 
-        public static void ExternalLocation(string user) {
+				Worker.Status = "Update Projekte";
+				SubversionHelper.UpdateDirNonRecursive(Client, PathBuilder.ProjectsPath);
 
-        }
+				Projects = GetSubDirectories(PathBuilder.ProjectsPath);
+			}
+      }
 
-        public static void CopyTests(StatusBackgroundWorker worker, string testSource, string destination) {
-            worker.Status = "Update Tests";
-            UpdateDir(testSource);
+		public static void CopyTests(SvnClient client, StatusBackgroundWorker worker, string testSource, string destination) {
+			worker.Status = "Update Tests";
+			SubversionHelper.UpdateDir(client, testSource);
 
-            worker.Status = "Kopiere Tests";
-            DirectoryCopy.Copy(testSource, destination, true);
+			worker.Status = "Kopiere Tests";
+         DirectoryUtil.Copy(testSource, destination, true);
 
-            worker.Status = "Schreibe build.gradle";
-            RewriteGradleFile(destination + "\\build.gradle");
-        }
-        
-        public static void CopyProject(StatusBackgroundWorker worker, string projectPath, string revision, string destination) {
-            if(Directory.Exists(destination)) {
-                worker.Status = "Lösche alten Ordner";
-                Directory.Delete(destination, true);
-            }
-
-            worker.Status = "Erstelle Ordner";
-            Directory.CreateDirectory(destination);
-
-            worker.Status = "Aktualisiere Projekt";
-            UpdateDir(projectPath, revision);
-
-            worker.Status = "Kopiere Projekt";
-            string srcPath = Path.Combine(projectPath, "src");
-            string outDir = MavenStructure.IsDirectoryStructure(srcPath) ? Path.Combine(destination, "src") : Path.Combine(destination, "src", "main", "java");
-            DirectoryCopy.CopyIgnoreNotExists(srcPath, outDir, true);
-        }
-    }
+			worker.Status = "Schreibe build.gradle";
+			RewriteGradleFile(destination + "\\build.gradle");
+		}
+	}
 }

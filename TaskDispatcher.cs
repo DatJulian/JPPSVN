@@ -1,23 +1,15 @@
 ﻿using System.ComponentModel;
 
 namespace JPPSVN {
-    class TaskDispatcher<TaskType> where TaskType : BackgroundWorker {
-        TaskType worker = null;
+	internal class TaskDispatcher<TaskType> where TaskType : BackgroundWorker {
+		public bool IsTaskRunning => Worker != null;
 
-        public bool IsTaskRunning {
-            get { return worker != null; }
-        }
+		public TaskType Worker { get; private set; }
 
-        public TaskType Worker {
-            get => worker;
-        }
-
-        public void Run(TaskType w) {
-            worker = w;
-            worker.RunWorkerCompleted += (object sender, RunWorkerCompletedEventArgs e) => {
-                worker = null;
-            };
-            worker.RunWorkerAsync();
-        }
-    }
+		public void Run(TaskType w) {
+			Worker = w;
+			Worker.RunWorkerCompleted += (sender, e) => { Worker = null; };
+			Worker.RunWorkerAsync();
+		}
+	}
 }

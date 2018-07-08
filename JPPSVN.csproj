@@ -12,6 +12,21 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,23 +52,28 @@
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <OutputPath>bin\x64\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <OutputPath>bin\x86\Debug\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SharpSvn">
-      <HintPath>..\..\..\..\..\..\..\dev\c#\lib\SharpSvn\SharpSvn.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClearnameResolver.cs" />
     <Compile Include="jpp\PathBuilder.cs" />
     <Compile Include="jpp\RepositoryActions.cs" />
     <Compile Include="forms\ProjectForm.cs">
@@ -63,24 +83,20 @@
       <DependentUpon>ProjectForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MavenStructure.cs" />
-    <Compile Include="PropertyReference.cs" />
     <Compile Include="TaskDispatcher.cs" />
-    <Compile Include="tasks\CopyFolderTask.cs" />
     <Compile Include="tasks\CopyProjectAndTestsTask.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="tasks\CopyProjectTask.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DirectoryCopy.cs" />
+    <Compile Include="DirectoryUtil.cs" />
     <Compile Include="Explorer.cs" />
     <Compile Include="controls\FolderSelectionComponent.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="IntelliJIDEA.cs" />
-    <Compile Include="forms\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="forms\MainForm.cs" />
     <Compile Include="forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
@@ -140,10 +156,34 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <Choose>
+    <When Condition=" '$(Platform)' == 'x64' ">
+      <ItemGroup>
+        <Reference Include="SharpSvn">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>lib\SharpSvn\x64\SharpSvn.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition=" '$(Platform)' == 'x86' ">
+      <ItemGroup>
+        <Reference Include="SharpSvn">
+          <SpecificVersion>False</SpecificVersion>
+          <HintPath>lib\SharpSvn\x86\SharpSvn.dll</HintPath>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Icon.ico" />
     <Content Include="Icon.ico" />

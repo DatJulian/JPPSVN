@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="OutputFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">D:\JPPOut\</Value>
     </Setting>
     <Setting Name="LastUser" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -11,14 +11,14 @@
     <Setting Name="LastRevision" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="BaseUrl" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="RepositoryURL" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://pabs.uni-wuerzburg.de/repos/ws17_pp</Value>
     </Setting>
     <Setting Name="Project" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="RepositoryFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">D:\JPPTest\</Value>
     </Setting>
     <Setting Name="IDEAPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

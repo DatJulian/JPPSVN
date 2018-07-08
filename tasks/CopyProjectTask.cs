@@ -1,29 +1,53 @@
-﻿using JPPSVN.tasks;
-using SharpSvn;
-using System;
+﻿using SharpSvn;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 
 namespace JPPSVN {
-    class CopyProjectTask : StatusBackgroundWorker {
-        public string ProjectPath { get; set; }
-        public string Destination { get; set; }
-        public string Revision { get; set; }
+	internal class CopyProjectTask : StatusBackgroundWorker {
+		public string Destination { get; }
+		public string Revision { get; }
+		public SvnClient Client { get; }
+		public string ProjectsPath { get; }
+		public string ProjectPath { get; }
+		public string Project { get; }
+		
+      public CopyProjectTask(
+	      SvnClient client,
+	      ToolStripStatusLabel label, 
+	      string projectsPath, 
+	      string project, 
+	      string destination, 
+	      string revision) : base(label) {
+			Client = client;
+	      ProjectsPath = projectsPath;
+			Destination = destination;
+			Revision = revision;
+	      Project = project;
+	      ProjectPath = PathBuilder.UserProjectFromProjects(ProjectsPath, Project);
+      }
 
-        public CopyProjectTask(ToolStripStatusLabel label, string projectPath, string destination, string revision) : base(label) {
-            ProjectPath = projectPath;
-            Destination = destination;
-            Revision = revision;
-        }
+		protected void CopyProject() {
+			if (Directory.Exists(Destination)) {
+				Status = "Lösche alten Ordner";
+				DirectoryUtil.DeleteDirectory(Destination);
+			}
 
-        protected void CopyProject() {
-            Tasks.CopyProject(this, ProjectPath, Revision, Destination);
-        }
-        
-        protected override void OnDoWork(DoWorkEventArgs e) {
-            base.OnDoWork(e);
-            CopyProject();
-        }
-    }
+			Status = "Aktualisiere Projekt";
+         SubversionHelper.UpdateDirNonRecursive(Client, ProjectsPath, Revision);
+			SubversionHelper.UpdateDir(Client, ProjectPath, Revision);
+
+         Status = "Kopiere Projekt";
+			string srcPath = Path.Combine(ProjectPath, "src");
+			string outDir = MavenStructure.IsDirectoryStructure(srcPath)
+				? Path.Combine(Destination, "src")
+				: Path.Combine(Destination, "src", "main", "java");
+			DirectoryUtil.CopyIgnoreNotExists(srcPath, outDir, true);
+      }
+
+		protected override void OnDoWork(DoWorkEventArgs e) {
+			base.OnDoWork(e);
+			CopyProject();
+		}
+	}
 }

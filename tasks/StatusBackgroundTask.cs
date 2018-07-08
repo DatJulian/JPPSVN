@@ -1,15 +1,12 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace JPPSVN {
-    class StatusBackgroundWorker : BackgroundWorker {
+	internal class StatusBackgroundWorker : BackgroundWorker {
         public ToolStripStatusLabel Label { get; set; }
 
         public string Status {
-            set {
-                ReportProgress(0, new ProgressInformation(value));
-            }
+            set => ReportProgress(0, new ProgressInformation(value));
         }
         
         public StatusBackgroundWorker(ToolStripStatusLabel label) {
@@ -23,7 +20,7 @@ namespace JPPSVN {
             base.OnProgressChanged(e);
 
             ProgressInformation info = e.UserState as ProgressInformation;
-            if(info.StatusText != null)
+            if(info?.StatusText != null)
                 Label.Text = info.StatusText;
         }
 
