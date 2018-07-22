@@ -2,29 +2,29 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="JPPSVN.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="OutputFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\JPPOut\</Value>
+    <Setting Name="RepositoryFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Projekte\Java\Programmierpraktikum\WS17\repository</Value>
     </Setting>
-    <Setting Name="LastUser" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+    <Setting Name="AutoFindIDEA" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="LastRevision" Type="System.String" Scope="User">
+    <Setting Name="IDEAPath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="RepositoryURL" Type="System.String" Scope="User">
       <Value Profile="(Default)">https://pabs.uni-wuerzburg.de/repos/ws17_pp</Value>
     </Setting>
-    <Setting Name="Project" Type="System.String" Scope="User">
+    <Setting Name="LastRevision" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="RepositoryFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\JPPTest\</Value>
-    </Setting>
-    <Setting Name="IDEAPath" Type="System.String" Scope="User">
+    <Setting Name="LastUser" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="AutoFindIDEA" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+    <Setting Name="OutputFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">D:\Projekte\Java\Programmierpraktikum\WS17\out</Value>
+    </Setting>
+    <Setting Name="LastProject" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

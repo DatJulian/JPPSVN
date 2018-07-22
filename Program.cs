@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using JPPSVN.forms;
 
 namespace JPPSVN {
 	internal static class Program {

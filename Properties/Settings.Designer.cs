@@ -25,37 +25,37 @@ namespace JPPSVN.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\JPPOut\\")]
-        public string OutputFolder {
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Projekte\\Java\\Programmierpraktikum\\WS17\\repository")]
+        public string RepositoryFolder {
             get {
-                return ((string)(this["OutputFolder"]));
+                return ((string)(this["RepositoryFolder"]));
             }
             set {
-                this["OutputFolder"] = value;
+                this["RepositoryFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool AutoFindIDEA {
+            get {
+                return ((bool)(this["AutoFindIDEA"]));
+            }
+            set {
+                this["AutoFindIDEA"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastUser {
+        public string IDEAPath {
             get {
-                return ((string)(this["LastUser"]));
+                return ((string)(this["IDEAPath"]));
             }
             set {
-                this["LastUser"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string LastRevision {
-            get {
-                return ((string)(this["LastRevision"]));
-            }
-            set {
-                this["LastRevision"] = value;
+                this["IDEAPath"] = value;
             }
         }
         
@@ -74,48 +74,48 @@ namespace JPPSVN.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Project {
+        public string LastRevision {
             get {
-                return ((string)(this["Project"]));
+                return ((string)(this["LastRevision"]));
             }
             set {
-                this["Project"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\JPPTest\\")]
-        public string RepositoryFolder {
-            get {
-                return ((string)(this["RepositoryFolder"]));
-            }
-            set {
-                this["RepositoryFolder"] = value;
+                this["LastRevision"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string IDEAPath {
+        public string LastUser {
             get {
-                return ((string)(this["IDEAPath"]));
+                return ((string)(this["LastUser"]));
             }
             set {
-                this["IDEAPath"] = value;
+                this["LastUser"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool AutoFindIDEA {
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Projekte\\Java\\Programmierpraktikum\\WS17\\out")]
+        public string OutputFolder {
             get {
-                return ((bool)(this["AutoFindIDEA"]));
+                return ((string)(this["OutputFolder"]));
             }
             set {
-                this["AutoFindIDEA"] = value;
+                this["OutputFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string LastProject {
+            get {
+                return ((string)(this["LastProject"]));
+            }
+            set {
+                this["LastProject"] = value;
             }
         }
     }

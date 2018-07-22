@@ -1,6 +1,9 @@
-﻿using SharpSvn;
+﻿using System.ComponentModel;
+using SharpSvn;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Windows.Forms;
 
 namespace JPPSVN.tasks {
 	internal class Tasks {
@@ -25,17 +28,15 @@ namespace JPPSVN.tasks {
 			return res;
 		}
 		
-      public class StartupUpdateTask {
+      public class StartupUpdateTask : StatusBackgroundWorker {
 			public SvnClient Client { get; }
-			public StatusBackgroundWorker Worker { get; }
 			public string RepositoryUrl { get; }
 			public PathBuilder PathBuilder { get; }
 			public ClearnameResolver ClearnameResolver { get; set; }
 			public string[] Projects { get; set; }
 
-			public StartupUpdateTask(SvnClient client, StatusBackgroundWorker worker, string repositoryURL, PathBuilder pathBuilder) {
+			public StartupUpdateTask(SvnClient client, ToolStripStatusLabel label, string repositoryURL, PathBuilder pathBuilder) : base(label) {
             Client = client;
-            Worker = worker;
             RepositoryUrl = repositoryURL;
 	         PathBuilder = pathBuilder;
          }
@@ -47,14 +48,14 @@ namespace JPPSVN.tasks {
 				if (!SubversionHelper.IsSVNFolder(PathBuilder.BasePath))
 					Client.CheckOut(new SvnUriTarget(RepositoryUrl), PathBuilder.BasePath, new SvnCheckOutArgs { Depth = SvnDepth.Children });
 				
-				Worker.Status = "Update clearnames";
+				Status = "Update clearnames";
 				SubversionHelper.UpdateDirNonRecursive(Client, PathBuilder.ViewsPath);
 				SubversionHelper.UpdateDirNonRecursive(Client, PathBuilder.ClearnamePath);
 				
 				Client.GetProperty(new SvnPathTarget(PathBuilder.ClearnamePath), "svn:externals", out string property);
 				ClearnameResolver = ClearnameResolver.FromExternals(property);
 
-				Worker.Status = "Update Projekte";
+				Status = "Update Projekte";
 				SubversionHelper.UpdateDirNonRecursive(Client, PathBuilder.ProjectsPath);
 
 				Projects = GetSubDirectories(PathBuilder.ProjectsPath);

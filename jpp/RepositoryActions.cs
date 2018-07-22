@@ -5,26 +5,24 @@ using SharpSvn;
 
 namespace JPPSVN.jpp {
 	internal class RepositoryActions : IDisposable {
-		private PathBuilder PathBuilder { get; }
+		public PathBuilder PathBuilder { get; set; }
 
 		public ToolStripStatusLabel Label { get; }
 
 		public SvnClient Client { get; }
 
-		public RepositoryActions(ToolStripStatusLabel label, string repositoryFolder) {
+		public RepositoryActions(ToolStripStatusLabel label) {
 			Client = new SvnClient();
 			Label = label;
-			PathBuilder = new PathBuilder(repositoryFolder);
 		}
 
-		public StatusBackgroundWorker StartupUpdate(string RepositoryURL) {
-			var worker = new StatusBackgroundWorker(Label);
-			var task = new Tasks.StartupUpdateTask(Client, worker, RepositoryURL, PathBuilder);
-         worker.DoWork += (sender, e) => {
+		public Tasks.StartupUpdateTask StartupUpdate(string RepositoryURL) {
+			var task = new Tasks.StartupUpdateTask(Client, Label, RepositoryURL, PathBuilder);
+			task.DoWork += (sender, e) => {
 	         task.Execute();
 	         e.Result = task;
          };
-			return worker;
+			return task;
 		}
 
 		public CopyProjectAndTestsTask CopyAllTask(Data data, string destination) {

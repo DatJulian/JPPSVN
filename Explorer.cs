@@ -3,9 +3,13 @@ using System.IO;
 
 namespace JPPSVN {
 	internal class Explorer {
-        public static void Open(string path) {
-            if(Directory.Exists(path))
-                Process.Start(path);
-        }
-    }
+		public static Process Open(string path) {
+			var process = new Process {
+				StartInfo = new ProcessStartInfo("explorer.exe", path)
+			};
+			process.Start();
+			return process;
+//         return Process.Start(path);
+		}
+	}
 }

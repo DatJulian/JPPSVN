@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
+using JPPSVN.tasks;
 
 namespace JPPSVN {
 	internal class CopyProjectTask : StatusBackgroundWorker {

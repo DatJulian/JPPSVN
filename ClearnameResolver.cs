@@ -18,7 +18,6 @@ namespace JPPSVN {
 		   return idToName.TryGetValue(id, out res);
 	   }
 
-
 	   private static void InsertOrAppend<TKey, TValue>(Dictionary<TKey, List<TValue>> dictionary, TKey key, TValue value) {
 		   if (dictionary.TryGetValue(key, out var list)) {
 			   list.Add(value);
@@ -27,6 +26,14 @@ namespace JPPSVN {
 			   dictionary.Add(key, list);
 		   }
       }
+
+	   public ICollection<string> GetNames() {
+		   return nameToId.Keys;
+	   }
+
+	   public ICollection<string> GetIds() {
+		   return idToName.Keys;
+	   }
 
       public static ClearnameResolver FromExternals(string property) {
 	      Dictionary<string, List<string>> nameToId = new Dictionary<string, List<string>>(),

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace JPPSVN {
+namespace JPPSVN.tasks {
 	internal class StatusBackgroundWorker : BackgroundWorker {
         public ToolStripStatusLabel Label { get; set; }
 
