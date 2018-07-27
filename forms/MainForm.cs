@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using JPPSVN.jpp;
-using JPPSVN;
 using JPPSVN.Properties;
 using JPPSVN.tasks;
 using SharpSvn;
@@ -13,7 +12,7 @@ namespace JPPSVN.forms {
 	public partial class MainForm : Form {
 		private PathBuilder pathBuilder;
 		private IntelliJIDEA intelliJIDEA;
-		private TaskDispatcher<StatusBackgroundWorker> taskDispatcher;
+		private TaskDispatcher taskDispatcher;
 		private RepositoryActions repositoryActions;
 		private SettingsData currentSettings = null;
 		private ClearnameResolver clearNames = null;
@@ -58,11 +57,11 @@ namespace JPPSVN.forms {
 				if (clearNames == null) return;
 
 		      var autocomplete = new AutoCompleteStringCollection();
-		      autocomplete.AddRange(clearNames.GetIds().ToArray());
+		      autocomplete.AddRange(clearNames.Ids.ToArray());
 		      userTextBox.AutoCompleteCustomSource = autocomplete;
 
 		      autocomplete = new AutoCompleteStringCollection();
-		      autocomplete.AddRange(clearNames.GetNames().ToArray());
+		      autocomplete.AddRange(clearNames.Names.ToArray());
 		      nameTextBox.AutoCompleteCustomSource = autocomplete;
 	      }
 		}
@@ -164,7 +163,7 @@ namespace JPPSVN.forms {
          bool needUpdate = shouldUpdateIfNecessary && (repositoryFolderChanged | repositoryURLChanged);
 
 			if (repositoryURLChanged) {
-				if(!repositoryFolderChanged) {
+				if(!repositoryFolderChanged && Directory.Exists(currentSettings.RepositoryFolder)) {
 					DialogResult result = MessageBox.Show("Die Repository-URL wurde geändert. Soll der Repositoryordner geleert werden?", "Hinweis", MessageBoxButtons.YesNoCancel);
 					switch(result) {
 						case DialogResult.Cancel:
@@ -194,7 +193,7 @@ namespace JPPSVN.forms {
 			base.OnLoad(e);
 
 			repositoryActions = new RepositoryActions(toolStripStatusLabel);
-			taskDispatcher = new TaskDispatcher<StatusBackgroundWorker>();
+			taskDispatcher = new TaskDispatcher();
 
 			SettingsData settings = new SettingsData(Settings.Default);
 
@@ -222,7 +221,7 @@ namespace JPPSVN.forms {
       protected override void OnClosing(CancelEventArgs e) {
 			base.OnClosing(e);
 
-			Properties.Settings settings = Properties.Settings.Default;
+			Settings settings = Settings.Default;
 	      SaveLast(settings);
          currentSettings.Save(settings);
 			settings.Save();
@@ -242,12 +241,7 @@ namespace JPPSVN.forms {
 		}
 
 		public Data MakeSnapshot() {
-			return new Data {
-				User = User,
-				UserName = UserName,
-				Project = Project,
-				Revision = Revision
-			};
+			return new Data(User, UserName, Project, Revision);
 		}
 
 		private string MakeOutputPath() {
@@ -327,14 +321,10 @@ namespace JPPSVN.forms {
 		}
 
 		private ProjectForm MakeProjectForm(string destination, Data data) {
-			return new ProjectForm(new ProjectForm.ProjectFormArgs() {
-				Data = data,
-				Folder = destination,
-				IntelliJ = intelliJIDEA
-			});
+			return new ProjectForm(new ProjectForm.ProjectFormArgs(data, destination, intelliJIDEA));
 		}
 
-		private void HandleExecutionFinished(string destination, Data data, RunWorkerCompletedEventArgs args) {
+		private void HandleExecutionFinished(string destination, Data data, AsyncCompletedEventArgs args) {
 			if(args.Error != null) {
 				HandleBackgroundException(args.Error);
 			} else if(!args.Cancelled)
@@ -345,7 +335,7 @@ namespace JPPSVN.forms {
 			if(taskDispatcher.IsTaskRunning || !HasProject || !HasUser) return;
 			var path = MakeOutputPath();
 			var data = MakeSnapshot();
-			var task = repositoryActions.CopyAllTask(data, path);
+			var task = repositoryActions.CreateCopyAllTask(data, path);
 			task.RunWorkerCompleted += (s, ev) => { HandleExecutionFinished(path, data, ev); };
 			taskDispatcher.Run(task);
 		}
@@ -354,7 +344,7 @@ namespace JPPSVN.forms {
 			if (taskDispatcher.IsTaskRunning || !HasProject || !HasUser) return;
          var path = MakeOutputPath();
 			var data = MakeSnapshot();
-			var task = repositoryActions.CopyProjectTask(data, path);
+			var task = repositoryActions.CreateCopyProjectTask(data, path);
 			task.RunWorkerCompleted += (s, ev) => { HandleExecutionFinished(path, data, ev); };
 			taskDispatcher.Run(task);
 		}

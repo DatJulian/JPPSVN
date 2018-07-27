@@ -1,8 +1,6 @@
-﻿using System.ComponentModel;
-using SharpSvn;
+﻿using SharpSvn;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Windows.Forms;
 
 namespace JPPSVN.tasks {

@@ -27,13 +27,9 @@ namespace JPPSVN {
 		   }
       }
 
-	   public ICollection<string> GetNames() {
-		   return nameToId.Keys;
-	   }
+	   public ICollection<string> Names => nameToId.Keys;
 
-	   public ICollection<string> GetIds() {
-		   return idToName.Keys;
-	   }
+	   public ICollection<string> Ids => idToName.Keys;
 
       public static ClearnameResolver FromExternals(string property) {
 	      Dictionary<string, List<string>> nameToId = new Dictionary<string, List<string>>(),

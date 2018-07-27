@@ -6,7 +6,7 @@ using System.IO;
 namespace JPPSVN {
 	internal class IntelliJIDEA {
 		public static string FindPath() {
-			foreach (RegistryKey key in ProgramFinder.FindProgramKeys("IntelliJ")) {
+			foreach(RegistryKey key in ProgramFinder.FindProgramKeys("IntelliJ")) {
 				return key.GetValue("InstallLocation") as string;
 			}
 
@@ -15,7 +15,7 @@ namespace JPPSVN {
 
 		public static string FindExe(string basePath) {
 			string exe = basePath + "\\bin\\idea64.exe";
-			if (File.Exists(exe)) return exe;
+			if(File.Exists(exe)) return exe;
 
 			exe = basePath + "\\bin\\idea.exe";
 			return File.Exists(exe) ? exe : null;
@@ -43,16 +43,12 @@ namespace JPPSVN {
 		}
 
 		public IDEAOpenFaileCause Open(string path) {
-			if (!File.Exists(ideaPath)) return IDEAOpenFaileCause.FileNotFound;
-			Process p = new Process {
-				StartInfo = {
-					Arguments = path,
-					FileName = ideaPath
-				}
-			};
-			try {
-				if (p.Start()) return IDEAOpenFaileCause.Success;
-			} catch (Win32Exception) { }
+			if(!File.Exists(ideaPath)) return IDEAOpenFaileCause.FileNotFound;
+			using(Process p = new Process {StartInfo = {Arguments = path, FileName = ideaPath}}) {
+				try {
+					if(p.Start()) return IDEAOpenFaileCause.Success;
+				} catch(Win32Exception) { }
+			}
 
 			return IDEAOpenFaileCause.FailedToStart;
 		}

@@ -1,31 +1,27 @@
-﻿using JPPSVN.tasks;
-using System.ComponentModel;
-using System.Windows.Forms;
-using SharpSvn;
+﻿using SharpSvn;
 
-namespace JPPSVN {
+namespace JPPSVN.tasks {
 	internal class CopyProjectAndTestsTask : CopyProjectTask {
+		public string TestSource { get; }
 
-        public CopyProjectAndTestsTask(
-	        SvnClient client, 
-	        ToolStripStatusLabel label,
-	        string projectsPath,
-	        string project,
-	        string destination,
-	        string revision,
-	        string testSource) : base(client, label, projectsPath, project, destination, revision) {
-            TestSource = testSource;
-        }
+		public CopyProjectAndTestsTask(StatusBackgroundWorker worker, SvnClient client, CopyProjectArgs args, string testSource) : base(worker, client, args) {
+			TestSource = testSource;
+		}
 
-        public string TestSource { get; set; }
+		public void CopyProjectAndTests() {
+			CopyProject();
+			CopyTests();
+		}
 
-        protected void CopyTests() {
-            Tasks.CopyTests(Client, this, TestSource, Destination);
-        }
+		protected void CopyTests() {
+			Status = "Update Tests";
+			SubversionHelper.UpdateDir(Client, TestSource);
 
-        protected override void OnDoWork(DoWorkEventArgs e) {
-            base.OnDoWork(e);
-            CopyTests();
-        }
-    }
+			Status = "Kopiere Tests";
+			DirectoryUtil.Copy(TestSource, Destination, true);
+
+			Status = "Schreibe build.gradle";
+			Tasks.RewriteGradleFile(Destination + "\\build.gradle");
+      }
+	}
 }

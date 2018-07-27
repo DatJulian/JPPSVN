@@ -18,34 +18,42 @@ namespace JPPSVN.jpp {
 
 		public Tasks.StartupUpdateTask StartupUpdate(string RepositoryURL) {
 			var task = new Tasks.StartupUpdateTask(Client, Label, RepositoryURL, PathBuilder);
-			task.DoWork += (sender, e) => {
-	         task.Execute();
-	         e.Result = task;
-         };
+			task.DoWork += (sender, e) => task.Execute();
 			return task;
 		}
 
-		public CopyProjectAndTestsTask CopyAllTask(Data data, string destination) {
-			return new CopyProjectAndTestsTask(
-				Client,
-				Label,
-				PathBuilder.GetUserProjects(data.User),
-				data.Project,
-            destination,
+		private StatusBackgroundWorker CreateWorker() {
+			return new StatusBackgroundWorker(Label);
+		}
+
+		private CopyProjectTask.CopyProjectArgs CreateCopyProjectArgs(Data data, string destination) {
+			return new CopyProjectTask.CopyProjectArgs(
+				destination,
 				data.Revision,
-				PathBuilder.GetProjectTests(data.Project)
+				PathBuilder.GetUserProjects(data.User),
+				data.Project
 			);
 		}
 
-		public CopyProjectTask CopyProjectTask(Data data, string destination) {
-			return new CopyProjectTask(
+      public StatusBackgroundWorker CreateCopyAllTask(Data data, string destination) {
+			StatusBackgroundWorker worker = CreateWorker();
+			CopyProjectAndTestsTask task = new CopyProjectAndTestsTask(
+				worker, 
 				Client,
-				Label,
-				PathBuilder.GetUserProjects(data.User),
-				data.Project,
-				destination,
-				data.Revision
-			);
+				CreateCopyProjectArgs(data, destination), 
+				PathBuilder.GetProjectTests(data.Project));
+			worker.DoWork += (sender, args) => task.CopyProjectAndTests();
+	      return worker;
+      }
+
+		public StatusBackgroundWorker CreateCopyProjectTask(Data data, string destination) {
+			StatusBackgroundWorker worker = CreateWorker();
+			CopyProjectTask task = new CopyProjectTask(
+				worker,
+				Client,
+				CreateCopyProjectArgs(data, destination));
+			worker.DoWork += (sender, args) => task.CopyProject();
+			return worker;
 		}
 
 		public void Dispose() {
