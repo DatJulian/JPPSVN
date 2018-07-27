@@ -30,13 +30,13 @@ namespace JPPSVN {
 			}
 		}
 
-		public static bool UpdateDir(SvnClient client, string name, string revision = null) {
+		public static bool UpdateDir(SvnClient client, string name, out SvnUpdateResult result, string revision = null) {
 			return client.Update(name, new SvnUpdateArgs {
 				Revision = SubversionHelper.MakeRevision(revision),
 				Depth = SvnDepth.Infinity,
             IgnoreExternals = true,
 				KeepDepth = true
-         });
+         }, out result);
 		}
 
 		public static bool UpdateDirNonRecursive(SvnClient client, string name, string revision = null) {

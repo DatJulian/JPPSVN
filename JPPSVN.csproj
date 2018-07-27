@@ -87,12 +87,8 @@
     <Compile Include="Settings.cs" />
     <Compile Include="SettingsData.cs" />
     <Compile Include="TaskDispatcher.cs" />
-    <Compile Include="tasks\CopyProjectAndTestsTask.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="tasks\CopyProjectTask.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="tasks\CopyProjectAndTestsTask.cs" />
+    <Compile Include="tasks\CopyProjectTask.cs" />
     <Compile Include="DirectoryUtil.cs" />
     <Compile Include="Explorer.cs" />
     <Compile Include="controls\FolderSelectionComponent.cs">

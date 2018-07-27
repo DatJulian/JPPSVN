@@ -42,7 +42,7 @@ namespace JPPSVN.jpp {
 				Client,
 				CreateCopyProjectArgs(data, destination), 
 				PathBuilder.GetProjectTests(data.Project));
-			worker.DoWork += (sender, args) => task.CopyProjectAndTests();
+			worker.DoWork += task.DoWork;
 	      return worker;
       }
 
@@ -52,7 +52,7 @@ namespace JPPSVN.jpp {
 				worker,
 				Client,
 				CreateCopyProjectArgs(data, destination));
-			worker.DoWork += (sender, args) => task.CopyProject();
+			worker.DoWork += task.DoWork;
 			return worker;
 		}
 

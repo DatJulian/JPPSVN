@@ -1,4 +1,5 @@
-﻿using SharpSvn;
+﻿using System.ComponentModel;
+using SharpSvn;
 
 namespace JPPSVN.tasks {
 	internal class CopyProjectAndTestsTask : CopyProjectTask {
@@ -13,15 +14,20 @@ namespace JPPSVN.tasks {
 			CopyTests();
 		}
 
-		protected void CopyTests() {
+		public new void DoWork(object sender, DoWorkEventArgs e) {
+			base.DoWork(sender, e);
+			CopyProjectAndTests();
+		}
+
+      protected void CopyTests() {
 			Status = "Update Tests";
-			SubversionHelper.UpdateDir(Client, TestSource);
+			SubversionHelper.UpdateDir(Client, TestSource, out _);
 
 			Status = "Kopiere Tests";
 			DirectoryUtil.Copy(TestSource, Destination, true);
-
-			Status = "Schreibe build.gradle";
-			Tasks.RewriteGradleFile(Destination + "\\build.gradle");
+			
+	      Status = "Schreibe build.gradle";
+	      Tasks.RewriteGradleFile(Destination + "\\build.gradle");
       }
 	}
 }

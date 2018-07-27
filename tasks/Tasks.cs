@@ -59,16 +59,5 @@ namespace JPPSVN.tasks {
 				Projects = GetSubDirectories(PathBuilder.ProjectsPath);
 			}
       }
-
-		public static void CopyTests(SvnClient client, StatusBackgroundWorker worker, string testSource, string destination) {
-			worker.Status = "Update Tests";
-			SubversionHelper.UpdateDir(client, testSource);
-
-			worker.Status = "Kopiere Tests";
-         DirectoryUtil.Copy(testSource, destination, true);
-
-			worker.Status = "Schreibe build.gradle";
-			RewriteGradleFile(destination + "\\build.gradle");
-		}
 	}
 }

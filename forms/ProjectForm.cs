@@ -8,22 +8,34 @@ using System.Windows.Forms;
 namespace JPPSVN.forms {
 	public sealed partial class ProjectForm : Form {
 		internal class ProjectFormArgs {
-			internal Data Data { get; set; }
-			internal string Folder { get; set; }
-			internal IntelliJIDEA IntelliJ { get; set; }
+			internal Data Data { get; }
+			internal string Folder { get; }
+			internal IntelliJIDEA IntelliJ { get; }
+			internal string UpdatedRevision { get; }
+
+			public ProjectFormArgs(Data data, string folder, IntelliJIDEA intelliJ, string updatedRevision) {
+				Data = data;
+				Folder = folder;
+				IntelliJ = intelliJ;
+				UpdatedRevision = updatedRevision;
+			}
 		}
 
-		private readonly TaskDispatcher<BackgroundWorker> taskDispatcher;
+		private readonly TaskDispatcher taskDispatcher;
 		private Process explorerProcess;
 
 		internal ProjectFormArgs Args { get; }
 
 		internal ProjectForm(ProjectFormArgs args) {
 			Args = args;
-			taskDispatcher = new TaskDispatcher<BackgroundWorker>();
+			taskDispatcher = new TaskDispatcher();
+			InitializeComponent();
+			userNameTextBox.Text = args.Data.UserName;
+			userTextBox.Text = args.Data.User;
+         projectTextBox.Text = args.Data.Project;
+			revisionTextBox.Text = args.UpdatedRevision;
 
-			Text = MakeTitle(Args.Data);
-         InitializeComponent();
+         Text = MakeTitle(Args.Data);
 		}
 
 		private void openIntelliJButton_Click(object sender, EventArgs e) {
@@ -36,9 +48,6 @@ namespace JPPSVN.forms {
 
 		[DllImport("user32.dll")]
 		private static extern bool SetForegroundWindow(IntPtr hWnd);
-
-		[DllImport("user32.dll")]
-      private static extern bool DestroyWindow(IntPtr hWnd);
 
       private void openExplorerButton_Click(object sender, EventArgs e) {
 			if(explorerProcess != null) {
@@ -64,11 +73,7 @@ namespace JPPSVN.forms {
 		}
 
 		private static string MakeTitle(Data data) {
-			string res = data.UserName + " (" + data.Project;
-			if(!string.IsNullOrEmpty(data.Revision))
-				res += " Revision " + data.Revision;
-			res += ")";
-			return res;
+         return data.UserName + " (" + data.Project + ')';
 		}
 
 		private void cleanupButton_Click(object sender, EventArgs e) {
@@ -77,8 +82,6 @@ namespace JPPSVN.forms {
 
       private void ProjectForm_FormClosing(object sender, FormClosingEventArgs e) {
 	      explorerProcess?.Dispose();
-
-	      Cleanup();
       }
    }
 }

@@ -320,15 +320,15 @@ namespace JPPSVN.forms {
 			UpdateUser();
 		}
 
-		private ProjectForm MakeProjectForm(string destination, Data data) {
-			return new ProjectForm(new ProjectForm.ProjectFormArgs(data, destination, intelliJIDEA));
+		private ProjectForm MakeProjectForm(string destination, Data data, string updatedRevision) {
+			return new ProjectForm(new ProjectForm.ProjectFormArgs(data, destination, intelliJIDEA, updatedRevision));
 		}
 
-		private void HandleExecutionFinished(string destination, Data data, AsyncCompletedEventArgs args) {
+		private void HandleExecutionFinished(string destination, Data data, RunWorkerCompletedEventArgs args) {
 			if(args.Error != null) {
 				HandleBackgroundException(args.Error);
 			} else if(!args.Cancelled)
-				MakeProjectForm(destination, data).Show();
+				MakeProjectForm(destination, data, args.Result as string).Show();
 		}
 
 		private void codeTestsToolStripMenuItem_Click(object sender, EventArgs e) {

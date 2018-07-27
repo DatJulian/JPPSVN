@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
 using SharpSvn;
 
 namespace JPPSVN.tasks {
@@ -23,6 +24,7 @@ namespace JPPSVN.tasks {
 		public string Revision { get; }
 		public string ProjectsPath { get; }
 		public string ProjectPath { get; }
+		public string UpdatedToRevision { get; private set; }
 
       protected string Status { set => Worker.Status = value; }
 
@@ -34,8 +36,13 @@ namespace JPPSVN.tasks {
 			ProjectsPath = args.ProjectsPath;
 			ProjectPath = args.ProjectPath;
 		}
-		
-		public void CopyProject() {
+
+		public void DoWork(object sender, DoWorkEventArgs e) {
+			CopyProject();
+			e.Result = UpdatedToRevision;
+		}
+
+      public void CopyProject() {
 			if (Directory.Exists(Destination)) {
 				Status = "Lösche alten Ordner";
 				DirectoryUtil.DeleteDirectory(Destination);
@@ -43,7 +50,10 @@ namespace JPPSVN.tasks {
 
 			Status = "Aktualisiere Projekt";
          SubversionHelper.UpdateDirNonRecursive(Client, ProjectsPath, Revision);
-			SubversionHelper.UpdateDir(Client, ProjectPath, Revision);
+	      SubversionHelper.UpdateDir(Client, ProjectPath, out var result, Revision);
+
+			if(result.HasRevision)
+				UpdatedToRevision = result.Revision.ToString();
 
          Status = "Kopiere Projekt";
 			string srcPath = Path.Combine(ProjectPath, "src");
