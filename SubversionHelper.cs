@@ -1,5 +1,4 @@
 ﻿using SharpSvn;
-using System.Collections.ObjectModel;
 
 namespace JPPSVN {
 	internal static class SubversionHelper {

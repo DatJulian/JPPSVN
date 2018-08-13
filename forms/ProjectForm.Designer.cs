@@ -50,7 +50,7 @@
          // 
          label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
          label1.AutoSize = true;
-         label1.Location = new System.Drawing.Point(41, 6);
+         label1.Location = new System.Drawing.Point(41, 58);
          label1.Name = "label1";
          label1.Size = new System.Drawing.Size(35, 13);
          label1.TabIndex = 0;
@@ -70,7 +70,7 @@
          // 
          label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
          label3.AutoSize = true;
-         label3.Location = new System.Drawing.Point(36, 58);
+         label3.Location = new System.Drawing.Point(36, 6);
          label3.Name = "label3";
          label3.Size = new System.Drawing.Size(40, 13);
          label3.TabIndex = 0;
@@ -172,14 +172,14 @@
          this.tableLayoutPanel3.ColumnCount = 2;
          this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
          this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.tableLayoutPanel3.Controls.Add(this.projectTextBox, 1, 2);
-         this.tableLayoutPanel3.Controls.Add(label3, 0, 2);
-         this.tableLayoutPanel3.Controls.Add(this.userTextBox, 1, 1);
+         this.tableLayoutPanel3.Controls.Add(this.projectTextBox, 1, 0);
+         this.tableLayoutPanel3.Controls.Add(label1, 0, 2);
          this.tableLayoutPanel3.Controls.Add(label2, 0, 1);
-         this.tableLayoutPanel3.Controls.Add(label1, 0, 0);
-         this.tableLayoutPanel3.Controls.Add(this.userNameTextBox, 1, 0);
          this.tableLayoutPanel3.Controls.Add(label4, 0, 3);
          this.tableLayoutPanel3.Controls.Add(this.revisionTextBox, 1, 3);
+         this.tableLayoutPanel3.Controls.Add(this.userTextBox, 1, 1);
+         this.tableLayoutPanel3.Controls.Add(this.userNameTextBox, 1, 2);
+         this.tableLayoutPanel3.Controls.Add(label3, 0, 0);
          this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
          this.tableLayoutPanel3.Name = "tableLayoutPanel3";
          this.tableLayoutPanel3.RowCount = 4;
@@ -193,7 +193,7 @@
          // projectTextBox
          // 
          this.projectTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-         this.projectTextBox.Location = new System.Drawing.Point(82, 55);
+         this.projectTextBox.Location = new System.Drawing.Point(82, 3);
          this.projectTextBox.Name = "projectTextBox";
          this.projectTextBox.ReadOnly = true;
          this.projectTextBox.Size = new System.Drawing.Size(169, 20);
@@ -211,7 +211,7 @@
          // userNameTextBox
          // 
          this.userNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-         this.userNameTextBox.Location = new System.Drawing.Point(82, 3);
+         this.userNameTextBox.Location = new System.Drawing.Point(82, 55);
          this.userNameTextBox.Name = "userNameTextBox";
          this.userNameTextBox.ReadOnly = true;
          this.userNameTextBox.Size = new System.Drawing.Size(169, 20);

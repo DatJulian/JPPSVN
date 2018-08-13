@@ -3,51 +3,48 @@ using System.IO;
 
 namespace JPPSVN {
 	public static class DirectoryUtil {
-		public static void Copy(string sourceDirName, string destDirName, bool copySubDirs) {
-			// Get the subdirectories for the specified directory.
-			DirectoryInfo dir = new DirectoryInfo(sourceDirName);
-
-			if(!dir.Exists) {
-				throw new DirectoryNotFoundException(
-					"Source directory does not exist or could not be found: "
-					+ sourceDirName);
-			}
-
-			Copy(dir, destDirName, copySubDirs);
-		}
-
-		private static void Copy(DirectoryInfo dir, string destDirName, bool copySubDirs) {
-			DirectoryInfo[] dirs = dir.GetDirectories();
-			// If the destination directory doesn't exist, create it.
-			if(!Directory.Exists(destDirName)) {
-				Directory.CreateDirectory(destDirName);
-			}
-
-			// Get the files in the directory and copy them to the new location.
-			FileInfo[] files = dir.GetFiles();
-			foreach(FileInfo file in files) {
+		private static void CopyFiles(DirectoryInfo directory, string destDirName) {
+			foreach (FileInfo file in directory.EnumerateFiles()) {
 				string temppath = Path.Combine(destDirName, file.Name);
 				file.CopyTo(temppath, true);
 			}
+      }
+
+		private static void CopySubDirectories(DirectoryInfo directory, string destDirName, bool copySubDirs, Predicate<string> topLevelFolderPredicate) {
+         foreach (DirectoryInfo subdir in directory.EnumerateDirectories()) {
+	         if(!topLevelFolderPredicate(subdir.Name))
+		         continue;
+				string temppath = Path.Combine(destDirName, subdir.Name);
+				Copy(subdir, temppath, copySubDirs, s => true);
+			}
+      }
+
+		private static void Copy(DirectoryInfo dir, string destDirName, bool copySubDirs, Predicate<string> topLevelFolderPredicate) {
+         // If the destination directory doesn't exist, create it.
+			DirectoryInfo destination = new DirectoryInfo(destDirName);
+			if (!destination.Exists)
+				destination.Create();
+
+         CopyFiles(dir, destDirName);
 
 			// If copying subdirectories, copy them and their contents to new location.
-			if(copySubDirs) {
-				foreach(DirectoryInfo subdir in dirs) {
-					string temppath = Path.Combine(destDirName, subdir.Name);
-					Copy(subdir, temppath, copySubDirs);
-				}
-			}
+			if(!copySubDirs) return;
+			CopySubDirectories(dir, destDirName, copySubDirs, topLevelFolderPredicate);
 		}
 
-		public static void CopyIgnoreNotExists(string sourceDirName, string destDirName, bool copySubDirs) {
+      public static void CopyIgnoreNotExists(string sourceDirName, string destDirName, bool copySubDirs, Predicate<string> topLevelFolderPredicate) {
 			// Get the subdirectories for the specified directory.
 			DirectoryInfo dir = new DirectoryInfo(sourceDirName);
 
 			if(dir.Exists)
-				Copy(dir, destDirName, copySubDirs);
+				Copy(dir, destDirName, copySubDirs, topLevelFolderPredicate);
 		}
 
-		public static void DeleteDirectory(string path) {
+		public static void CopyIgnoreNotExists(string sourceDirName, string destDirName, bool copySubDirs) {
+			CopyIgnoreNotExists(sourceDirName, destDirName, copySubDirs, s => true);
+		}
+
+      public static void DeleteDirectory(string path) {
 			foreach(string directory in Directory.GetDirectories(path)) {
 				DeleteDirectory(directory);
 			}

@@ -7,43 +7,32 @@ using System.Windows.Forms;
 
 namespace JPPSVN.forms {
 	public sealed partial class ProjectForm : Form {
-		internal class ProjectFormArgs {
-			internal Data Data { get; }
-			internal string Folder { get; }
-			internal IntelliJIDEA IntelliJ { get; }
-			internal string UpdatedRevision { get; }
-
-			public ProjectFormArgs(Data data, string folder, IntelliJIDEA intelliJ, string updatedRevision) {
-				Data = data;
-				Folder = folder;
-				IntelliJ = intelliJ;
-				UpdatedRevision = updatedRevision;
-			}
-		}
-
 		private readonly TaskDispatcher taskDispatcher;
 		private Process explorerProcess;
 
-		internal ProjectFormArgs Args { get; }
+		internal Data Data { get; }
+		internal string Folder { get; }
+		internal IntelliJIDEA IntelliJ { get; }
+		internal string UpdatedRevision { get; }
 
-		internal ProjectForm(ProjectFormArgs args) {
-			Args = args;
+		internal ProjectForm(Data data, string folder, IntelliJIDEA intelliJ, string updatedRevision) {
+			Data = data;
+			Folder = folder;
+			IntelliJ = intelliJ;
+			UpdatedRevision = updatedRevision;
 			taskDispatcher = new TaskDispatcher();
 			InitializeComponent();
-			userNameTextBox.Text = args.Data.UserName;
-			userTextBox.Text = args.Data.User;
-         projectTextBox.Text = args.Data.Project;
-			revisionTextBox.Text = args.UpdatedRevision;
+			userNameTextBox.Text = Data.UserName;
+			userTextBox.Text = Data.User;
+         projectTextBox.Text = Data.Project;
+			revisionTextBox.Text = UpdatedRevision;
+			openIntelliJButton.Enabled = IntelliJ != null;
 
-         Text = MakeTitle(Args.Data);
+         Text = MakeTitle(Data);
 		}
 
 		private void openIntelliJButton_Click(object sender, EventArgs e) {
-			if(Args.IntelliJ == null) {
-				MessageBox.Show("IntelliJ konnte nicht gefunden werden.");
-				return;
-			}
-			Args.IntelliJ.Open(Args.Folder);
+			IntelliJ.Open(Folder);
 		}
 
 		[DllImport("user32.dll")]
@@ -57,7 +46,7 @@ namespace JPPSVN.forms {
 		      }
 				explorerProcess.Dispose();
 			}
-	      explorerProcess = Explorer.Open(Args.Folder);
+	      explorerProcess = Explorer.Open(Folder);
       }
 
       private void Cleanup() {
@@ -66,7 +55,7 @@ namespace JPPSVN.forms {
 
 			BackgroundWorker task = new BackgroundWorker();
 			task.DoWork += (o, ev) => {
-				if(Directory.Exists(Args.Folder)) DirectoryUtil.DeleteDirectory(Args.Folder);
+				if(Directory.Exists(Folder)) DirectoryUtil.DeleteDirectory(Folder);
 			};
 			task.RunWorkerCompleted += (snder, es) => { Close(); };
 			taskDispatcher.Run(task);

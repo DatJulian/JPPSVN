@@ -321,7 +321,7 @@ namespace JPPSVN.forms {
 		}
 
 		private ProjectForm MakeProjectForm(string destination, Data data, string updatedRevision) {
-			return new ProjectForm(new ProjectForm.ProjectFormArgs(data, destination, intelliJIDEA, updatedRevision));
+			return new ProjectForm(data, destination, intelliJIDEA, updatedRevision);
 		}
 
 		private void HandleExecutionFinished(string destination, Data data, RunWorkerCompletedEventArgs args) {

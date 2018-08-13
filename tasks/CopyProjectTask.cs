@@ -55,12 +55,14 @@ namespace JPPSVN.tasks {
 			if(result.HasRevision)
 				UpdatedToRevision = result.Revision.ToString();
 
+			// TODO copy other files outside of src/ too
          Status = "Kopiere Projekt";
 			string srcPath = Path.Combine(ProjectPath, "src");
 			string outDir = MavenStructure.IsDirectoryStructure(srcPath)
 				? Path.Combine(Destination, "src")
 				: Path.Combine(Destination, "src", "main", "java");
 			DirectoryUtil.CopyIgnoreNotExists(srcPath, outDir, true);
+			DirectoryUtil.CopyIgnoreNotExists(ProjectPath, Destination, true, s => "src" != s);
       }
 	}
 }

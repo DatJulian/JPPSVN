@@ -24,7 +24,7 @@ namespace JPPSVN.tasks {
 			SubversionHelper.UpdateDir(Client, TestSource, out _);
 
 			Status = "Kopiere Tests";
-			DirectoryUtil.Copy(TestSource, Destination, true);
+			DirectoryUtil.CopyIgnoreNotExists(TestSource, Destination, true);
 			
 	      Status = "Schreibe build.gradle";
 	      Tasks.RewriteGradleFile(Destination + "\\build.gradle");
