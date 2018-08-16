@@ -25,7 +25,7 @@ namespace JPPSVN.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Projekte\\Java\\Programmierpraktikum\\WS17\\repository")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string RepositoryFolder {
             get {
                 return ((string)(this["RepositoryFolder"]));
@@ -61,7 +61,7 @@ namespace JPPSVN.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://pabs.uni-wuerzburg.de/repos/ws17_pp")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://pabs.uni-wuerzburg.de/repos/ss18_pp")]
         public string RepositoryURL {
             get {
                 return ((string)(this["RepositoryURL"]));
@@ -97,7 +97,7 @@ namespace JPPSVN.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Projekte\\Java\\Programmierpraktikum\\WS17\\out")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string OutputFolder {
             get {
                 return ((string)(this["OutputFolder"]));

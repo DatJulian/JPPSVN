@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="RepositoryFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Projekte\Java\Programmierpraktikum\WS17\repository</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="AutoFindIDEA" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -12,7 +12,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="RepositoryURL" Type="System.String" Scope="User">
-      <Value Profile="(Default)">https://pabs.uni-wuerzburg.de/repos/ws17_pp</Value>
+      <Value Profile="(Default)">https://pabs.uni-wuerzburg.de/repos/ss18_pp</Value>
     </Setting>
     <Setting Name="LastRevision" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
@@ -21,7 +21,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="OutputFolder" Type="System.String" Scope="User">
-      <Value Profile="(Default)">D:\Projekte\Java\Programmierpraktikum\WS17\out</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="LastProject" Type="System.String" Scope="User">
       <Value Profile="(Default)" />

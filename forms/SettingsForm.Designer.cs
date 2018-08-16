@@ -289,7 +289,6 @@
          this.ideaFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
          this.ideaFolderSelectionComponent.Size = new System.Drawing.Size(325, 29);
          this.ideaFolderSelectionComponent.TabIndex = 0;
-         this.ideaFolderSelectionComponent.Paint += new System.Windows.Forms.PaintEventHandler(this.ideaFolderSelectionComponent_Paint);
          // 
          // SettingsForm
          // 

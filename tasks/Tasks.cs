@@ -30,20 +30,25 @@ namespace JPPSVN.tasks {
 			public SvnClient Client { get; }
 			public string RepositoryUrl { get; }
 			public PathBuilder PathBuilder { get; }
-			public ClearnameResolver ClearnameResolver { get; set; }
+	      public bool UrlChanged { get; }
+         public ClearnameResolver ClearnameResolver { get; set; }
 			public string[] Projects { get; set; }
+			
 
-			public StartupUpdateTask(SvnClient client, ToolStripStatusLabel label, string repositoryURL, PathBuilder pathBuilder) : base(label) {
+			public StartupUpdateTask(SvnClient client, ToolStripStatusLabel label, string repositoryURL, PathBuilder pathBuilder, bool urlChanged) : base(label) {
             Client = client;
             RepositoryUrl = repositoryURL;
 	         PathBuilder = pathBuilder;
-         }
+				UrlChanged = urlChanged;
+			}
 
 			public void Execute() {
 				if (string.IsNullOrEmpty(PathBuilder.BasePath))
 					return;
 
-				if (!SubversionHelper.IsSVNFolder(PathBuilder.BasePath))
+				Client.CleanUp(PathBuilder.BasePath);
+
+            if (UrlChanged || !SubversionHelper.IsSVNFolder(PathBuilder.BasePath))
 					Client.CheckOut(new SvnUriTarget(RepositoryUrl), PathBuilder.BasePath, new SvnCheckOutArgs { Depth = SvnDepth.Children });
 				
 				Status = "Update clearnames";

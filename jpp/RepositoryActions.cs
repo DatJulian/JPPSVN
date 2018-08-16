@@ -16,8 +16,8 @@ namespace JPPSVN.jpp {
 			Label = label;
 		}
 
-		public Tasks.StartupUpdateTask StartupUpdate(string RepositoryURL) {
-			var task = new Tasks.StartupUpdateTask(Client, Label, RepositoryURL, PathBuilder);
+		public Tasks.StartupUpdateTask StartupUpdate(string RepositoryURL, bool urlChanged) {
+			var task = new Tasks.StartupUpdateTask(Client, Label, RepositoryURL, PathBuilder, urlChanged);
 			task.DoWork += (sender, e) => task.Execute();
 			return task;
 		}

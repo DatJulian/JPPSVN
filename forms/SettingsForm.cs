@@ -22,13 +22,17 @@ namespace JPPSVN.forms {
 
          InitializeComponent();
 			
-         outputFolderSelectionComponent.TextBox.Validated += (sender, args) => {
-			   SetError(outputFolderSelectionComponent, string.IsNullOrWhiteSpace(OutputFolder) ? "Der Zielpfad darf nicht leer sein" : string.Empty);
-	      };
+         outputFolderSelectionComponent.TextBox.Validated += (sender, args) => ValidateOutputFolder();
 
-         repositoryFolderSelectionComponent.TextBox.Validated += (sender, args) => {
-		      SetError(repositoryFolderSelectionComponent, string.IsNullOrWhiteSpace(RepositoryFolder) ? "Der Repository-Pfad darf nicht leer sein." : string.Empty);
-         };
+         repositoryFolderSelectionComponent.TextBox.Validated += (sender, args) => ValidateRepositoryFolder();
+      }
+
+		private void ValidateOutputFolder() {
+			SetError(outputFolderSelectionComponent, string.IsNullOrWhiteSpace(OutputFolder) ? "Der Zielpfad darf nicht leer sein" : string.Empty);
+      }
+
+		private void ValidateRepositoryFolder() {
+			SetError(repositoryFolderSelectionComponent, string.IsNullOrWhiteSpace(RepositoryFolder) ? "Der Repository-Pfad darf nicht leer sein." : string.Empty);
       }
 
 		private void SetError(Control control, string value) {
@@ -61,8 +65,8 @@ namespace JPPSVN.forms {
 
 			LoadFromSettings();
 
-			if(AutoFindIDEA)
-				IDEAFolder = IntelliJIDEA.FindPath();
+			ValidateOutputFolder();
+			ValidateRepositoryFolder();
 		}
 
 		protected override void OnFormClosing(FormClosingEventArgs e) {
@@ -87,10 +91,8 @@ namespace JPPSVN.forms {
 		private void ideaFindAutomaticCheckBox_CheckedChanged(object sender, EventArgs e) {
 			ideaFolderSelectionComponent.TextBox.ReadOnly = ideaFindAutomaticCheckBox.Checked;
 			ideaFolderSelectionComponent.Button.Enabled = !ideaFindAutomaticCheckBox.Checked;
+			if(ideaFindAutomaticCheckBox.Checked)
+				ideaFolderSelectionComponent.Path = IntelliJIDEA.FindPath();
 		}
-
-      private void ideaFolderSelectionComponent_Paint(object sender, PaintEventArgs e) {
-
-      }
    }
 }

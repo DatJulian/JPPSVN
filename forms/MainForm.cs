@@ -91,9 +91,11 @@ namespace JPPSVN.forms {
 				return;
 			if (ClearNames.ResolveName(text, out var s) && s.Count == 1) {
 				UserName = s[0];
+			} else {
+				User = string.Empty;
 			}
-		}
-
+      }
+		
 		private void UpdateUser() {
 			if (changingUser || ClearNames == null)
 				return;
@@ -102,6 +104,8 @@ namespace JPPSVN.forms {
 				return;
 			if (ClearNames.ResolveID(text, out var s) && s.Count == 1) {
 				User = s[0];
+			} else {
+				User = string.Empty;
 			}
 		}
 
@@ -115,8 +119,8 @@ namespace JPPSVN.forms {
 			MessageBox.Show(this, message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
 		}
 
-      private void ReloadAsync(string repositoryURL) {
-			var worker = repositoryActions.StartupUpdate(repositoryURL);
+      private void ReloadAsync(string repositoryURL, bool urlChanged) {
+			var worker = repositoryActions.StartupUpdate(repositoryURL, urlChanged);
 			worker.RunWorkerCompleted += (o, ev) => {
 				if (ev.Error == null) {
 					ClearNames = worker.ClearnameResolver;
@@ -156,35 +160,43 @@ namespace JPPSVN.forms {
 			return true;
 		}
 		
-      private void LoadChangedSettings(SettingsData settings, bool shouldUpdateIfNecessary) {
-			bool repositoryFolderChanged = currentSettings.RepositoryFolder != settings.RepositoryFolder;
-			bool repositoryURLChanged = currentSettings.RepositoryURL != settings.RepositoryURL;
-
-         bool needUpdate = shouldUpdateIfNecessary && (repositoryFolderChanged | repositoryURLChanged);
-
-			if (repositoryURLChanged) {
-				if(!repositoryFolderChanged && Directory.Exists(currentSettings.RepositoryFolder)) {
-					DialogResult result = MessageBox.Show("Die Repository-URL wurde geändert. Soll der Repositoryordner geleert werden?", "Hinweis", MessageBoxButtons.YesNoCancel);
-					switch(result) {
-						case DialogResult.Cancel:
-							return;
-						case DialogResult.Yes:
-							DirectoryUtil.DeleteDirectory(currentSettings.RepositoryFolder);
-                     break;
-						case DialogResult.No:
-							break;
-					}
-				} 
-         }
+      private void LoadChangedSettings(SettingsData settings, bool forceUpdate) {
+	      bool needUpdate;
+	      bool repositoryURLChanged;
 			
-			LoadFromValidatedSettings(settings);
+         if (currentSettings != null) {
+		      bool repositoryFolderChanged = currentSettings == null || currentSettings.RepositoryFolder != settings.RepositoryFolder;
+		      repositoryURLChanged = currentSettings == null || currentSettings.RepositoryURL != settings.RepositoryURL;
+
+		      needUpdate = forceUpdate || (repositoryFolderChanged || repositoryURLChanged);
+
+		      if(repositoryURLChanged) {
+			      if(!repositoryFolderChanged && Directory.Exists(currentSettings.RepositoryFolder)) {
+				      DialogResult result = MessageBox.Show("Die Repository-URL wurde geändert. Soll der Repositoryordner geleert werden? (Nein könnte zu einer kaputten Repository führen)", "Hinweis", MessageBoxButtons.YesNoCancel);
+				      switch(result) {
+					      case DialogResult.Cancel:
+						      return;
+					      case DialogResult.Yes:
+						      DirectoryUtil.DeleteDirectory(currentSettings.RepositoryFolder);
+						      break;
+					      case DialogResult.No:
+						      break;
+				      }
+			      }
+		      }
+	      } else {
+		      needUpdate = true;
+		      repositoryURLChanged = true;
+	      }
+
+	      LoadFromValidatedSettings(settings);
 
          if(needUpdate)
-				ReloadAsync(settings.RepositoryURL);
+				ReloadAsync(settings.RepositoryURL, repositoryURLChanged);
       }
 
-		private SettingsData OpenSettings() {
-			SettingsData data = new SettingsData(currentSettings);
+		private SettingsData OpenSettings(SettingsData set) {
+			SettingsData data = new SettingsData(set);
 			SettingsForm settingsForm = new SettingsForm(data);
 			return settingsForm.ShowDialog() == DialogResult.OK ? data : null;
 		}
@@ -200,16 +212,14 @@ namespace JPPSVN.forms {
 			LoadGUIFromSettings(Settings.Default);
 
 			if(!LoadVarsFromSettings(settings)) {
-				settings = OpenSettings();
+				settings = OpenSettings(settings);
 				if(settings == null) {
 					Close();
 					return;
 				}
-
-				LoadChangedSettings(settings, false);
 			}
 
-			ReloadAsync(settings.RepositoryURL);
+			LoadChangedSettings(settings, true);
 		}
 		
 		private void SaveLast(Settings settings) {
@@ -223,7 +233,7 @@ namespace JPPSVN.forms {
 
 			Settings settings = Settings.Default;
 	      SaveLast(settings);
-         currentSettings.Save(settings);
+         currentSettings?.Save(settings);
 			settings.Save();
 
 	      currentSettings = null;
@@ -251,10 +261,10 @@ namespace JPPSVN.forms {
 		#region UI Events
 
 		private void einstellungenToolStripMenuItem_Click(object sender, EventArgs e) {
-			SettingsData settings = OpenSettings();
+			SettingsData settings = OpenSettings(currentSettings);
 
 			if (settings != null)
-				LoadChangedSettings(settings, true);
+				LoadChangedSettings(settings, false);
 		}
 
 		private void ordnerToolStripMenuItem_Click(object sender, EventArgs e) {
