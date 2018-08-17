@@ -125,7 +125,7 @@ namespace JPPSVN.forms {
 				if (ev.Error == null) {
 					ClearNames = worker.ClearnameResolver;
 					UpdateProjectsAutocomplete(worker.Projects);
-
+					
 					UpdateUserName();
 					UpdateUser();
 				} else
@@ -195,7 +195,7 @@ namespace JPPSVN.forms {
 				ReloadAsync(settings.RepositoryURL, repositoryURLChanged);
       }
 
-		private SettingsData OpenSettings(SettingsData set) {
+		private static SettingsData OpenSettings(SettingsData set) {
 			SettingsData data = new SettingsData(set);
 			SettingsForm settingsForm = new SettingsForm(data);
 			return settingsForm.ShowDialog() == DialogResult.OK ? data : null;

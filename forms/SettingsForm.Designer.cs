@@ -29,6 +29,9 @@
          System.Windows.Forms.Label label3;
          System.Windows.Forms.Label label4;
          this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+         this.outputFolderSelectionComponent = new JPPSVN.FolderSelectionComponent();
+         this.repositoryFolderSelectionComponent = new JPPSVN.FolderSelectionComponent();
+         this.ideaFolderSelectionComponent = new JPPSVN.FolderSelectionComponent();
          this.repositoryURLTextBox = new System.Windows.Forms.TextBox();
          this.ideaFindAutomaticCheckBox = new System.Windows.Forms.CheckBox();
          this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
@@ -36,9 +39,6 @@
          this.okButton = new System.Windows.Forms.Button();
          this.cancelButton = new System.Windows.Forms.Button();
          this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-         this.outputFolderSelectionComponent = new JPPSVN.FolderSelectionComponent();
-         this.repositoryFolderSelectionComponent = new JPPSVN.FolderSelectionComponent();
-         this.ideaFolderSelectionComponent = new JPPSVN.FolderSelectionComponent();
          label1 = new System.Windows.Forms.Label();
          label2 = new System.Windows.Forms.Label();
          label3 = new System.Windows.Forms.Label();
@@ -117,6 +117,48 @@
          this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
          this.tableLayoutPanel1.Size = new System.Drawing.Size(439, 124);
          this.tableLayoutPanel1.TabIndex = 0;
+         // 
+         // outputFolderSelectionComponent
+         // 
+         this.outputFolderSelectionComponent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+         this.outputFolderSelectionComponent.AutoSize = true;
+         this.outputFolderSelectionComponent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+         this.outputFolderSelectionComponent.Location = new System.Drawing.Point(98, 0);
+         this.outputFolderSelectionComponent.Margin = new System.Windows.Forms.Padding(0, 0, 16, 0);
+         this.outputFolderSelectionComponent.Name = "outputFolderSelectionComponent";
+         this.outputFolderSelectionComponent.Path = "";
+         this.outputFolderSelectionComponent.Size = new System.Drawing.Size(325, 29);
+         this.outputFolderSelectionComponent.TabIndex = 0;
+         // 
+         // repositoryFolderSelectionComponent
+         // 
+         this.repositoryFolderSelectionComponent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+         this.repositoryFolderSelectionComponent.AutoSize = true;
+         this.repositoryFolderSelectionComponent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+         this.repositoryFolderSelectionComponent.Location = new System.Drawing.Point(98, 29);
+         this.repositoryFolderSelectionComponent.Margin = new System.Windows.Forms.Padding(0, 0, 16, 0);
+         this.repositoryFolderSelectionComponent.Name = "repositoryFolderSelectionComponent";
+         this.repositoryFolderSelectionComponent.Path = "";
+         this.repositoryFolderSelectionComponent.Size = new System.Drawing.Size(325, 29);
+         this.repositoryFolderSelectionComponent.TabIndex = 0;
+         // 
+         // ideaFolderSelectionComponent
+         // 
+         this.ideaFolderSelectionComponent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+         this.ideaFolderSelectionComponent.AutoSize = true;
+         this.ideaFolderSelectionComponent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+         this.ideaFolderSelectionComponent.Location = new System.Drawing.Point(98, 58);
+         this.ideaFolderSelectionComponent.Margin = new System.Windows.Forms.Padding(0, 0, 16, 0);
+         this.ideaFolderSelectionComponent.Name = "ideaFolderSelectionComponent";
+         this.ideaFolderSelectionComponent.Path = "";
+         this.ideaFolderSelectionComponent.Size = new System.Drawing.Size(325, 29);
+         this.ideaFolderSelectionComponent.TabIndex = 0;
          // 
          // repositoryURLTextBox
          // 
@@ -207,89 +249,6 @@
          this.tableLayoutPanel3.Size = new System.Drawing.Size(445, 159);
          this.tableLayoutPanel3.TabIndex = 2;
          // 
-         // outputFolderSelectionComponent
-         // 
-         this.outputFolderSelectionComponent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-         this.outputFolderSelectionComponent.AutoSize = true;
-         this.outputFolderSelectionComponent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-         this.outputFolderSelectionComponent.ColumnCount = 2;
-         this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.outputFolderSelectionComponent.Location = new System.Drawing.Point(98, 0);
-         this.outputFolderSelectionComponent.Margin = new System.Windows.Forms.Padding(0, 0, 16, 0);
-         this.outputFolderSelectionComponent.Name = "outputFolderSelectionComponent";
-         this.outputFolderSelectionComponent.Path = "";
-         this.outputFolderSelectionComponent.RowCount = 1;
-         this.outputFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.outputFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.outputFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.outputFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.outputFolderSelectionComponent.Size = new System.Drawing.Size(325, 29);
-         this.outputFolderSelectionComponent.TabIndex = 0;
-         // 
-         // repositoryFolderSelectionComponent
-         // 
-         this.repositoryFolderSelectionComponent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-         this.repositoryFolderSelectionComponent.AutoSize = true;
-         this.repositoryFolderSelectionComponent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-         this.repositoryFolderSelectionComponent.ColumnCount = 2;
-         this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.repositoryFolderSelectionComponent.Location = new System.Drawing.Point(98, 29);
-         this.repositoryFolderSelectionComponent.Margin = new System.Windows.Forms.Padding(0, 0, 16, 0);
-         this.repositoryFolderSelectionComponent.Name = "repositoryFolderSelectionComponent";
-         this.repositoryFolderSelectionComponent.Path = "";
-         this.repositoryFolderSelectionComponent.RowCount = 1;
-         this.repositoryFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.repositoryFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.repositoryFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.repositoryFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.repositoryFolderSelectionComponent.Size = new System.Drawing.Size(325, 29);
-         this.repositoryFolderSelectionComponent.TabIndex = 0;
-         // 
-         // ideaFolderSelectionComponent
-         // 
-         this.ideaFolderSelectionComponent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-         this.ideaFolderSelectionComponent.AutoSize = true;
-         this.ideaFolderSelectionComponent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-         this.ideaFolderSelectionComponent.ColumnCount = 2;
-         this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-         this.ideaFolderSelectionComponent.Location = new System.Drawing.Point(98, 58);
-         this.ideaFolderSelectionComponent.Margin = new System.Windows.Forms.Padding(0, 0, 16, 0);
-         this.ideaFolderSelectionComponent.Name = "ideaFolderSelectionComponent";
-         this.ideaFolderSelectionComponent.Path = "";
-         this.ideaFolderSelectionComponent.RowCount = 1;
-         this.ideaFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.ideaFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.ideaFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.ideaFolderSelectionComponent.Size = new System.Drawing.Size(325, 29);
-         this.ideaFolderSelectionComponent.TabIndex = 0;
-         // 
          // SettingsForm
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -297,6 +256,7 @@
          this.ClientSize = new System.Drawing.Size(469, 193);
          this.Controls.Add(this.tableLayoutPanel3);
          this.Icon = global::JPPSVN.Properties.Resources.Icon32;
+         this.MaximizeBox = false;
          this.MaximumSize = new System.Drawing.Size(10000, 232);
          this.MinimumSize = new System.Drawing.Size(360, 232);
          this.Name = "SettingsForm";

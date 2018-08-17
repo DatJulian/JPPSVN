@@ -78,10 +78,9 @@ namespace JPPSVN.forms {
 		}
 
 		private void okButton_Click(object sender, EventArgs e) {
-			if(errors == 0) {
-				DialogResult = DialogResult.OK;
-				Close();
-			}
+			if(errors != 0) return;
+			DialogResult = DialogResult.OK;
+			Close();
 		}
 
 		private void cancelButton_Click(object sender, EventArgs e) {
