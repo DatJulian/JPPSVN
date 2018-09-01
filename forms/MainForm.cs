@@ -87,9 +87,7 @@ namespace JPPSVN.forms {
 			if (changingUser || ClearNames == null)
 				return;
 			string text = User;
-			if (text.Length == 0)
-				return;
-			if (ClearNames.ResolveName(text, out var s) && s.Count == 1) {
+			if (text.Length != 0 && ClearNames.ResolveName(text, out var s) && s.Count == 1) {
 				UserName = s[0];
 			} else {
 				UserName = string.Empty;
@@ -100,14 +98,16 @@ namespace JPPSVN.forms {
 			if (changingUser || ClearNames == null)
 				return;
 			string text = UserName;
-			if (text.Length == 0)
-				return;
-			if (ClearNames.ResolveID(text, out var s) && s.Count == 1) {
+			if (text.Length != 0 && ClearNames.ResolveID(text, out var s) && s.Count == 1) {
 				User = s[0];
 			} else {
 				User = string.Empty;
 			}
 		}
+
+		private void ShowError(string text) {
+			MessageBox.Show(this, text, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
 
 		private void HandleBackgroundException(Exception e) {
 			string message;
@@ -116,7 +116,7 @@ namespace JPPSVN.forms {
 				message = inner != null ? inner.Message : svne.Message;
 			} else message = e.Message;
 
-			MessageBox.Show(this, message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			ShowError(message);
 		}
 
       private void ReloadAsync(string repositoryURL, bool urlChanged) {
@@ -124,7 +124,8 @@ namespace JPPSVN.forms {
 			worker.RunWorkerCompleted += (o, ev) => {
 				if (ev.Error == null) {
 					ClearNames = worker.ClearnameResolver;
-					projectComboBox.Items.AddRange(worker.Projects);
+					projectComboBox.Items.Clear();
+               projectComboBox.Items.AddRange(worker.Projects);
 					if(lastSelectedProject != null) {
 						projectComboBox.SelectedItem = lastSelectedProject;
 					}
@@ -286,7 +287,7 @@ namespace JPPSVN.forms {
 			if(Directory.Exists(path))
 				Explorer.Open(path);
 			else
-				MessageBox.Show("Ordner von \"" + User + "\" konnte nicht gefunden werden. Wurde er schon geladen?");
+				ShowError("Ordner von \"" + User + "\" konnte nicht gefunden werden. Wurde er schon geladen?");
 		}
 
 		private void projektordnerToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -295,7 +296,7 @@ namespace JPPSVN.forms {
 			if(Directory.Exists(path))
 				Explorer.Open(path);
 			else
-				MessageBox.Show("Projektordner des Projekts \"" + Project + "\" von \"" + User +
+				ShowError("Projektordner des Projekts \"" + Project + "\" von \"" + User +
 				                "\" konnte nicht gefunden werden.");
 		}
 
@@ -305,7 +306,7 @@ namespace JPPSVN.forms {
 				if(Directory.Exists(path))
 					Explorer.Open(path);
 				else
-					MessageBox.Show("Projektordner des Projekts \"" + Project + "\" konnte nicht gefunden werden.");
+					ShowError("Projektordner des Projekts \"" + Project + "\" konnte nicht gefunden werden.");
 			}
 		}
 
@@ -333,16 +334,24 @@ namespace JPPSVN.forms {
 			if(Directory.Exists(path))
 				updateFolder(path, null);
 			else
-				MessageBox.Show(this, "Ordner des Projekts \"" + Project + "\" konnte nicht gefunden werden.",
-					"Fehler");
+				ShowError("Ordner des Projekts \"" + Project + "\" konnte nicht gefunden werden.");
 		}
 
 		private void userTextBox_TextChanged(object sender, EventArgs e) {
 			UpdateUserName();
-		}
+			OnUserChanged();
+      }
+
+		private void OnUserChanged() {
+			bool value = !string.IsNullOrWhiteSpace(User);
+			ordnerToolStripMenuItem.Enabled = value;
+			projektordnerToolStripMenuItem.Enabled = value;
+			updateProjektordnerToolStripMenuItem.Enabled = value;
+      }
 
 		private void nameTextBox_TextChanged(object sender, EventArgs e) {
 			UpdateUser();
+			OnUserChanged();
 		}
 
 		private ProjectForm MakeProjectForm(string destination, Data data, string updatedRevision) {
