@@ -17,6 +17,7 @@ namespace JPPSVN.forms {
 		private TaskDispatcher taskDispatcher;
 		private RepositoryActions repositoryActions;
 		private SettingsData currentSettings = null;
+		private string lastSelectedProject = null;
 		private ClearnameResolver clearNames = null;
 		private bool changingUser = false;
 
@@ -33,7 +34,7 @@ namespace JPPSVN.forms {
          }
 		}
 
-		public string Project { get => projectTextBox.Text; set => projectTextBox.Text = value; }
+		public string Project { get => projectComboBox.Text; set => projectComboBox.Text = value; }
 		
 		public string OutputFolder { get; set; }
 
@@ -66,11 +67,11 @@ namespace JPPSVN.forms {
 
       public MainForm() {
          InitializeComponent();
-	      if (Debugger.IsAttached)
-		      Settings.Default.Reset();
+	      //if(Debugger.IsAttached)
+		     // Settings.Default.Reset();
       }
 
-		private static void UpdateAutoComplete(TextBox textBox, ICollection<string> values) {
+		private static void UpdateAutoComplete(TextBox textBox, IEnumerable<string> values) {
 			var autocomplete = new AutoCompleteStringCollection();
 			autocomplete.AddRange(values.ToArray());
 			textBox.AutoCompleteCustomSource = autocomplete;
@@ -79,13 +80,7 @@ namespace JPPSVN.forms {
 		private void LoadGUIFromSettings(Settings settings) {
 			Revision = settings.LastRevision;
 			User = settings.LastUser;
-			Project = settings.LastProject;
-		}
-
-		private void UpdateProjectsAutocomplete(string[] projects) {
-			var autocomplete = new AutoCompleteStringCollection();
-			autocomplete.AddRange(projects);
-			projectTextBox.AutoCompleteCustomSource = autocomplete;
+			lastSelectedProject = settings.LastProject;
 		}
 		
       private void UpdateUserName() {
@@ -129,9 +124,12 @@ namespace JPPSVN.forms {
 			worker.RunWorkerCompleted += (o, ev) => {
 				if (ev.Error == null) {
 					ClearNames = worker.ClearnameResolver;
-					UpdateProjectsAutocomplete(worker.Projects);
-					
-					UpdateUserName();
+					projectComboBox.Items.AddRange(worker.Projects);
+					if(lastSelectedProject != null) {
+						projectComboBox.SelectedItem = lastSelectedProject;
+					}
+
+               UpdateUserName();
 					UpdateUser();
 				} else
 					HandleBackgroundException(ev.Error);
@@ -213,9 +211,7 @@ namespace JPPSVN.forms {
 			taskDispatcher = new TaskDispatcher();
 
 			SettingsData settings = new SettingsData(Settings.Default);
-
-			LoadGUIFromSettings(Settings.Default);
-
+			
 			if(!LoadVarsFromSettings(settings)) {
 				settings = OpenSettings(settings);
 				if(settings == null) {
@@ -225,12 +221,16 @@ namespace JPPSVN.forms {
 			}
 
 			LoadChangedSettings(settings, true);
-		}
+
+			LoadGUIFromSettings(Settings.Default);
+         OnSelectedProjectChanged(projectComboBox.SelectedIndex);
+      }
 		
 		private void SaveLast(Settings settings) {
 			settings.LastRevision = Revision;
 			settings.LastUser = User;
-			settings.LastProject = Project;
+			// Keep old selected project if the user was unable to select a new one
+			settings.LastProject = projectComboBox.SelectedIndex == -1 ? lastSelectedProject : Project;
 		}
 
       protected override void OnClosing(CancelEventArgs e) {
@@ -253,6 +253,14 @@ namespace JPPSVN.forms {
 
          clearNames = null;
 			intelliJIDEA = null;
+		}
+
+		private void OnSelectedProjectChanged(int index) {
+			bool value = index != -1;
+			ordnerToolStripMenuItem2.Enabled = value;
+			updateToolStripMenuItem.Enabled = value;
+			projektordnerToolStripMenuItem.Enabled = value;
+			updateProjektordnerToolStripMenuItem.Enabled = value;
 		}
 
 		public Data MakeSnapshot() {
@@ -278,7 +286,7 @@ namespace JPPSVN.forms {
 			if(Directory.Exists(path))
 				Explorer.Open(path);
 			else
-				MessageBox.Show("Ordner von \"" + User + "\" konnte nicht gefunden werden.");
+				MessageBox.Show("Ordner von \"" + User + "\" konnte nicht gefunden werden. Wurde er schon geladen?");
 		}
 
 		private void projektordnerToolStripMenuItem_Click(object sender, EventArgs e) {
@@ -305,9 +313,11 @@ namespace JPPSVN.forms {
 			StatusBackgroundWorker task = new StatusBackgroundWorker(toolStripStatusLabel);
 			task.DoWork += (o, ev) => {
 				task.Status = "Aktualisiere Ordner \"" + path + "\"";
-				SubversionHelper.Update(path, revision);
+				SubversionHelper.UpdateDir(repositoryActions.Client, path, out _, revision);
 			};
-			task.RunWorkerCompleted += (sender, args) => HandleBackgroundException(args.Error);
+			task.RunWorkerCompleted += (sender, args) => {
+				if(args.Error != null) HandleBackgroundException(args.Error);
+			};
 			taskDispatcher.Run(task);
 		}
 
@@ -365,5 +375,9 @@ namespace JPPSVN.forms {
 		}
 
       #endregion
+
+      private void projectComboBox_SelectedIndexChanged(object sender, EventArgs e) {
+	      OnSelectedProjectChanged(projectComboBox.SelectedIndex);
+      }
    }
 }

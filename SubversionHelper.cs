@@ -13,16 +13,7 @@ namespace JPPSVN {
 				out _
 			);
 		}
-
-		public static bool Update(string path, string revision) {
-			using(SvnClient client = new SvnClient()) {
-				return client.Update(path, new SvnUpdateArgs {
-					Revision = MakeRevision(revision),
-					IgnoreExternals = true
-				});
-			}
-		}
-
+		
 		public static bool UpdateDir(SvnClient client, string name, out SvnUpdateResult result, string revision = null) {
 			return client.Update(name, new SvnUpdateArgs {
 				Revision = SubversionHelper.MakeRevision(revision),

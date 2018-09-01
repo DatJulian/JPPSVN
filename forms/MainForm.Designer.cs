@@ -31,22 +31,22 @@
          System.Windows.Forms.MenuStrip menuStrip1;
          System.Windows.Forms.ToolStripMenuItem studentToolStripMenuItem;
          System.Windows.Forms.ToolStripMenuItem ordnerToolStripMenuItem;
-         System.Windows.Forms.ToolStripMenuItem projektordnerToolStripMenuItem;
-         System.Windows.Forms.ToolStripMenuItem updateProjektordnerToolStripMenuItem;
          System.Windows.Forms.ToolStripMenuItem projektToolStripMenuItem;
-         System.Windows.Forms.ToolStripMenuItem ordnerToolStripMenuItem2;
-         System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
          System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
          System.Windows.Forms.ToolStripMenuItem codeToolStripMenuItem;
          System.Windows.Forms.ToolStripMenuItem codeTestsToolStripMenuItem;
          System.Windows.Forms.ToolStripMenuItem einstellungenToolStripMenuItem;
-         this.projectTextBox = new System.Windows.Forms.TextBox();
          this.userTextBox = new System.Windows.Forms.TextBox();
          this.nameTextBox = new System.Windows.Forms.TextBox();
          this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+         this.projektordnerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.updateProjektordnerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.ordnerToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+         this.updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.statusStrip1 = new System.Windows.Forms.StatusStrip();
          this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
          this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+         this.projectComboBox = new System.Windows.Forms.ComboBox();
          this.revisionTextBox = new JPPSVN.NumberTextBox();
          tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
          label2 = new System.Windows.Forms.Label();
@@ -56,11 +56,7 @@
          menuStrip1 = new System.Windows.Forms.MenuStrip();
          studentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          ordnerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         projektordnerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         updateProjektordnerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          projektToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         ordnerToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-         updateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          debugToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          codeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          codeTestsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,7 +75,7 @@
          tableLayoutPanel1.ColumnCount = 2;
          tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
          tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-         tableLayoutPanel1.Controls.Add(this.projectTextBox, 1, 0);
+         tableLayoutPanel1.Controls.Add(this.projectComboBox, 1, 0);
          tableLayoutPanel1.Controls.Add(label2, 0, 3);
          tableLayoutPanel1.Controls.Add(this.revisionTextBox, 1, 3);
          tableLayoutPanel1.Controls.Add(this.userTextBox, 1, 1);
@@ -95,24 +91,14 @@
          tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
          tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
          tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-         tableLayoutPanel1.Size = new System.Drawing.Size(363, 104);
+         tableLayoutPanel1.Size = new System.Drawing.Size(363, 105);
          tableLayoutPanel1.TabIndex = 7;
-         // 
-         // projectTextBox
-         // 
-         this.projectTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-         this.projectTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-         this.projectTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-         this.projectTextBox.Location = new System.Drawing.Point(82, 3);
-         this.projectTextBox.Name = "projectTextBox";
-         this.projectTextBox.Size = new System.Drawing.Size(278, 20);
-         this.projectTextBox.TabIndex = 12;
          // 
          // label2
          // 
          label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
          label2.AutoSize = true;
-         label2.Location = new System.Drawing.Point(28, 84);
+         label2.Location = new System.Drawing.Point(28, 85);
          label2.Name = "label2";
          label2.Size = new System.Drawing.Size(48, 13);
          label2.TabIndex = 2;
@@ -124,7 +110,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
          this.userTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
          this.userTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-         this.userTextBox.Location = new System.Drawing.Point(82, 29);
+         this.userTextBox.Location = new System.Drawing.Point(82, 30);
          this.userTextBox.Name = "userTextBox";
          this.userTextBox.Size = new System.Drawing.Size(278, 20);
          this.userTextBox.TabIndex = 0;
@@ -134,7 +120,7 @@
          // 
          label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
          label1.AutoSize = true;
-         label1.Location = new System.Drawing.Point(3, 32);
+         label1.Location = new System.Drawing.Point(3, 33);
          label1.Name = "label1";
          label1.Size = new System.Drawing.Size(73, 13);
          label1.TabIndex = 1;
@@ -144,7 +130,7 @@
          // 
          label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
          label5.AutoSize = true;
-         label5.Location = new System.Drawing.Point(36, 6);
+         label5.Location = new System.Drawing.Point(36, 7);
          label5.Name = "label5";
          label5.Size = new System.Drawing.Size(40, 13);
          label5.TabIndex = 11;
@@ -154,7 +140,7 @@
          // 
          label3.Anchor = System.Windows.Forms.AnchorStyles.Right;
          label3.AutoSize = true;
-         label3.Location = new System.Drawing.Point(41, 58);
+         label3.Location = new System.Drawing.Point(41, 59);
          label3.Name = "label3";
          label3.Size = new System.Drawing.Size(35, 13);
          label3.TabIndex = 1;
@@ -166,7 +152,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
          this.nameTextBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
          this.nameTextBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
-         this.nameTextBox.Location = new System.Drawing.Point(82, 55);
+         this.nameTextBox.Location = new System.Drawing.Point(82, 56);
          this.nameTextBox.Name = "nameTextBox";
          this.nameTextBox.Size = new System.Drawing.Size(278, 20);
          this.nameTextBox.TabIndex = 0;
@@ -190,8 +176,8 @@
          studentToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             ordnerToolStripMenuItem,
             this.toolStripSeparator1,
-            projektordnerToolStripMenuItem,
-            updateProjektordnerToolStripMenuItem});
+            this.projektordnerToolStripMenuItem,
+            this.updateProjektordnerToolStripMenuItem});
          studentToolStripMenuItem.Name = "studentToolStripMenuItem";
          studentToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
          studentToolStripMenuItem.Text = "Student";
@@ -200,7 +186,7 @@
          // 
          ordnerToolStripMenuItem.Name = "ordnerToolStripMenuItem";
          ordnerToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-         ordnerToolStripMenuItem.Text = "Ordner";
+         ordnerToolStripMenuItem.Text = "Öffne Ordner";
          ordnerToolStripMenuItem.Click += new System.EventHandler(this.ordnerToolStripMenuItem_Click);
          // 
          // toolStripSeparator1
@@ -210,40 +196,40 @@
          // 
          // projektordnerToolStripMenuItem
          // 
-         projektordnerToolStripMenuItem.Name = "projektordnerToolStripMenuItem";
-         projektordnerToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-         projektordnerToolStripMenuItem.Text = "Projektordner";
-         projektordnerToolStripMenuItem.Click += new System.EventHandler(this.projektordnerToolStripMenuItem_Click);
+         this.projektordnerToolStripMenuItem.Name = "projektordnerToolStripMenuItem";
+         this.projektordnerToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+         this.projektordnerToolStripMenuItem.Text = "Öffne Projektordner";
+         this.projektordnerToolStripMenuItem.Click += new System.EventHandler(this.projektordnerToolStripMenuItem_Click);
          // 
          // updateProjektordnerToolStripMenuItem
          // 
-         updateProjektordnerToolStripMenuItem.Name = "updateProjektordnerToolStripMenuItem";
-         updateProjektordnerToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
-         updateProjektordnerToolStripMenuItem.Text = "Update Projektordner";
-         updateProjektordnerToolStripMenuItem.Click += new System.EventHandler(this.updateProjektordnerToolStripMenuItem_Click);
+         this.updateProjektordnerToolStripMenuItem.Name = "updateProjektordnerToolStripMenuItem";
+         this.updateProjektordnerToolStripMenuItem.Size = new System.Drawing.Size(187, 22);
+         this.updateProjektordnerToolStripMenuItem.Text = "Update Projektordner";
+         this.updateProjektordnerToolStripMenuItem.Click += new System.EventHandler(this.updateProjektordnerToolStripMenuItem_Click);
          // 
          // projektToolStripMenuItem
          // 
          projektToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            ordnerToolStripMenuItem2,
-            updateToolStripMenuItem});
+            this.ordnerToolStripMenuItem2,
+            this.updateToolStripMenuItem});
          projektToolStripMenuItem.Name = "projektToolStripMenuItem";
          projektToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
          projektToolStripMenuItem.Text = "Projekt";
          // 
          // ordnerToolStripMenuItem2
          // 
-         ordnerToolStripMenuItem2.Name = "ordnerToolStripMenuItem2";
-         ordnerToolStripMenuItem2.Size = new System.Drawing.Size(112, 22);
-         ordnerToolStripMenuItem2.Text = "Ordner";
-         ordnerToolStripMenuItem2.Click += new System.EventHandler(this.ordnerToolStripMenuItem2_Click);
+         this.ordnerToolStripMenuItem2.Name = "ordnerToolStripMenuItem2";
+         this.ordnerToolStripMenuItem2.Size = new System.Drawing.Size(180, 22);
+         this.ordnerToolStripMenuItem2.Text = "Öffne Ordner";
+         this.ordnerToolStripMenuItem2.Click += new System.EventHandler(this.ordnerToolStripMenuItem2_Click);
          // 
          // updateToolStripMenuItem
          // 
-         updateToolStripMenuItem.Name = "updateToolStripMenuItem";
-         updateToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
-         updateToolStripMenuItem.Text = "Update";
-         updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
+         this.updateToolStripMenuItem.Name = "updateToolStripMenuItem";
+         this.updateToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+         this.updateToolStripMenuItem.Text = "Update";
+         this.updateToolStripMenuItem.Click += new System.EventHandler(this.updateToolStripMenuItem_Click);
          // 
          // debugToolStripMenuItem
          // 
@@ -299,11 +285,23 @@
          this.toolStripStatusLabel.Size = new System.Drawing.Size(0, 17);
          this.toolStripStatusLabel.Visible = false;
          // 
+         // projectComboBox
+         // 
+         this.projectComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+         this.projectComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+         this.projectComboBox.FormattingEnabled = true;
+         this.projectComboBox.Location = new System.Drawing.Point(82, 3);
+         this.projectComboBox.Name = "projectComboBox";
+         this.projectComboBox.Size = new System.Drawing.Size(278, 21);
+         this.projectComboBox.Sorted = true;
+         this.projectComboBox.TabIndex = 11;
+         this.projectComboBox.SelectedIndexChanged += new System.EventHandler(this.projectComboBox_SelectedIndexChanged);
+         // 
          // revisionTextBox
          // 
          this.revisionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-         this.revisionTextBox.Location = new System.Drawing.Point(82, 81);
+         this.revisionTextBox.Location = new System.Drawing.Point(82, 82);
          this.revisionTextBox.Name = "revisionTextBox";
          this.revisionTextBox.Size = new System.Drawing.Size(278, 20);
          this.revisionTextBox.TabIndex = 3;
@@ -335,7 +333,6 @@
         }
 
         #endregion
-        private System.Windows.Forms.TextBox projectTextBox;
         private System.Windows.Forms.TextBox userTextBox;
 //        private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
@@ -344,6 +341,11 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
         private NumberTextBox revisionTextBox;
       private System.Windows.Forms.TextBox nameTextBox;
+      private System.Windows.Forms.ComboBox projectComboBox;
+      private System.Windows.Forms.ToolStripMenuItem ordnerToolStripMenuItem2;
+      private System.Windows.Forms.ToolStripMenuItem updateToolStripMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem projektordnerToolStripMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem updateProjektordnerToolStripMenuItem;
    }
 }
 
