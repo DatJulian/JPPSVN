@@ -27,10 +27,10 @@ namespace JPPSVN.tasks {
 		}
 		
       public class StartupUpdateTask : StatusBackgroundWorker {
-			public SvnClient Client { get; }
-			public string RepositoryUrl { get; }
-			public PathBuilder PathBuilder { get; }
-	      public bool UrlChanged { get; }
+	      protected SvnClient Client { get; }
+	      protected string RepositoryUrl { get; }
+	      protected PathBuilder PathBuilder { get; }
+	      protected bool UrlChanged { get; }
          public ClearnameResolver ClearnameResolver { get; set; }
 			public string[] Projects { get; set; }
 			
@@ -42,23 +42,35 @@ namespace JPPSVN.tasks {
 				UrlChanged = urlChanged;
 			}
 
+	      private void CheckoutRepo() {
+		      Status = "Checking out repository";
+            Client.CheckOut(new SvnUriTarget(RepositoryUrl), PathBuilder.BasePath, new SvnCheckOutArgs { Depth = SvnDepth.Children });
+         }
+
 			public void Execute() {
 				if (string.IsNullOrEmpty(PathBuilder.BasePath))
 					return;
 
-				Client.CleanUp(PathBuilder.BasePath);
+				if(Directory.Exists(PathBuilder.BasePath)) {
+					if(SubversionHelper.IsSVNFolder(Client, PathBuilder.BasePath)) {
+						Status = "Cleaning up repository";
+                  Client.CleanUp(PathBuilder.BasePath);
+					}
 
-            if (UrlChanged || !SubversionHelper.IsSVNFolder(PathBuilder.BasePath))
-					Client.CheckOut(new SvnUriTarget(RepositoryUrl), PathBuilder.BasePath, new SvnCheckOutArgs { Depth = SvnDepth.Children });
-				
-				Status = "Update clearnames";
+					if(UrlChanged)
+						CheckoutRepo();
+            } else {
+					CheckoutRepo();
+				}
+
+				Status = "Updating clearnames";
 				SubversionHelper.UpdateDirNonRecursive(Client, PathBuilder.ViewsPath);
 				SubversionHelper.UpdateDirNonRecursive(Client, PathBuilder.ClearnamePath);
 				
 				Client.GetProperty(new SvnPathTarget(PathBuilder.ClearnamePath), "svn:externals", out string property);
 				ClearnameResolver = ClearnameResolver.FromExternals(property);
 
-				Status = "Update Projekte";
+				Status = "Updating projects";
 				SubversionHelper.UpdateDirNonRecursive(Client, PathBuilder.ProjectsPath);
 
 				Projects = GetSubDirectories(PathBuilder.ProjectsPath);

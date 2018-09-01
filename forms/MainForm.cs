@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -56,20 +58,23 @@ namespace JPPSVN.forms {
 				clearNames = value;
 				if (clearNames == null) return;
 
-		      var autocomplete = new AutoCompleteStringCollection();
-		      autocomplete.AddRange(clearNames.Ids.ToArray());
-		      userTextBox.AutoCompleteCustomSource = autocomplete;
-
-		      autocomplete = new AutoCompleteStringCollection();
-		      autocomplete.AddRange(clearNames.Names.ToArray());
-		      nameTextBox.AutoCompleteCustomSource = autocomplete;
+		      UpdateAutoComplete(userTextBox, clearNames.Ids);
+		      UpdateAutoComplete(nameTextBox, clearNames.Names);
 	      }
 		}
       #endregion
 
       public MainForm() {
-			InitializeComponent();
-		}
+         InitializeComponent();
+	      if (Debugger.IsAttached)
+		      Settings.Default.Reset();
+      }
+
+		private static void UpdateAutoComplete(TextBox textBox, ICollection<string> values) {
+			var autocomplete = new AutoCompleteStringCollection();
+			autocomplete.AddRange(values.ToArray());
+			textBox.AutoCompleteCustomSource = autocomplete;
+      }
 
 		private void LoadGUIFromSettings(Settings settings) {
 			Revision = settings.LastRevision;
@@ -82,7 +87,7 @@ namespace JPPSVN.forms {
 			autocomplete.AddRange(projects);
 			projectTextBox.AutoCompleteCustomSource = autocomplete;
 		}
-
+		
       private void UpdateUserName() {
 			if (changingUser || ClearNames == null)
 				return;
@@ -92,7 +97,7 @@ namespace JPPSVN.forms {
 			if (ClearNames.ResolveName(text, out var s) && s.Count == 1) {
 				UserName = s[0];
 			} else {
-				User = string.Empty;
+				UserName = string.Empty;
 			}
       }
 		
@@ -165,8 +170,8 @@ namespace JPPSVN.forms {
 	      bool repositoryURLChanged;
 			
          if (currentSettings != null) {
-		      bool repositoryFolderChanged = currentSettings == null || currentSettings.RepositoryFolder != settings.RepositoryFolder;
-		      repositoryURLChanged = currentSettings == null || currentSettings.RepositoryURL != settings.RepositoryURL;
+		      bool repositoryFolderChanged = currentSettings.RepositoryFolder != settings.RepositoryFolder;
+		      repositoryURLChanged = currentSettings.RepositoryURL != settings.RepositoryURL;
 
 		      needUpdate = forceUpdate || (repositoryFolderChanged || repositoryURLChanged);
 

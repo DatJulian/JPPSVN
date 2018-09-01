@@ -6,18 +6,12 @@ namespace JPPSVN {
 			return string.IsNullOrEmpty(revision) ? null : new SvnRevision(long.Parse(revision));
 		}
 
-		public static bool IsSVNFolder(SvnTarget path) {
-			using(SvnClient client = new SvnClient()) {
-				return client.GetInfo(
-					path,
-					new SvnInfoArgs() {ThrowOnError = false},
-					out _
-				);
-			}
-		}
-
-		public static bool IsSVNFolder(string path) {
-			return IsSVNFolder(SvnTarget.FromString(path));
+		public static bool IsSVNFolder(SvnClient client, string path) {
+			return client.GetInfo(
+				new SvnPathTarget(path), 
+				new SvnInfoArgs() {ThrowOnError = false},
+				out _
+			);
 		}
 
 		public static bool Update(string path, string revision) {
