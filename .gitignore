@@ -1,3 +1,12 @@
 .vs/
-bin/
 obj/
+
+bin/*
+!bin/x64
+
+bin/x64/*
+!/bin/x64/Release
+
+/bin/x64/Release/*
+!/bin/x64/Release/JPPSVN.exe
+!/bin/x64/Release/SharpSvn.dll
