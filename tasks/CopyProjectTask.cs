@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading;
 using SharpSvn;
 
 namespace JPPSVN.tasks {
@@ -9,13 +11,15 @@ namespace JPPSVN.tasks {
 			public string Revision { get; }
 			public string ProjectsPath { get; }
 			public string ProjectPath { get; }
+			public bool OnlySrcFolderFromProject { get; }
 
-			public CopyProjectArgs(string destination, string revision, string projectsPath, string project) {
+         public CopyProjectArgs(string destination, string revision, string projectsPath, string project, bool onlySrcFolderFromProject) {
 				Destination = destination;
 				Revision = revision;
 				ProjectsPath = projectsPath;
 				ProjectPath = PathBuilder.UserProjectFromProjects(projectsPath, project);
-			}
+				OnlySrcFolderFromProject = onlySrcFolderFromProject;
+         }
 		}
 
 		public StatusBackgroundWorker Worker { get; }
@@ -24,7 +28,9 @@ namespace JPPSVN.tasks {
 		public string Revision { get; }
 		public string ProjectsPath { get; }
 		public string ProjectPath { get; }
-		public string UpdatedToRevision { get; private set; }
+		public bool OnlySrcFolderFromProject { get; }
+      public string UpdatedToRevision { get; private set; }
+		
 
       protected string Status { set => Worker.Status = value; }
 
@@ -35,6 +41,7 @@ namespace JPPSVN.tasks {
 			Revision = args.Revision;
 			ProjectsPath = args.ProjectsPath;
 			ProjectPath = args.ProjectPath;
+			OnlySrcFolderFromProject = args.OnlySrcFolderFromProject;
 		}
 
 		public void DoWork(object sender, DoWorkEventArgs e) {
@@ -49,9 +56,18 @@ namespace JPPSVN.tasks {
 			}
 
 			Status = "Aktualisiere Projekt";
-         SubversionHelper.UpdateDirNonRecursive(Client, ProjectsPath, Revision);
-	      SubversionHelper.UpdateDir(Client, ProjectPath, out var result, Revision);
+			SubversionHelper.UpdateDir(Client, ProjectsPath, SvnDepth.Children, Revision); // Get all project folders
 
+			if(!Directory.Exists(ProjectPath))
+				return;
+
+         SvnUpdateResult result;
+         if (OnlySrcFolderFromProject) {
+            SubversionHelper.UpdateDir(Client, Path.Combine(ProjectPath, "src"), SvnDepth.Infinity, out result, Revision);
+         } else {
+	         SubversionHelper.UpdateDir(Client, ProjectPath, SvnDepth.Infinity, out result, Revision);
+         }
+	      
 			if(result.HasRevision)
 				UpdatedToRevision = result.Revision.ToString();
 			
@@ -61,7 +77,8 @@ namespace JPPSVN.tasks {
 				? Path.Combine(Destination, "src")
 				: Path.Combine(Destination, "src", "main", "java");
 			DirectoryUtil.CopyIgnoreNotExists(srcPath, outDir, true);
-			DirectoryUtil.CopyIgnoreNotExists(ProjectPath, Destination, true, s => "src" != s);
+
+			DirectoryUtil.CopyIgnoreNotExists(ProjectPath, Destination, true, s => "src" != s && ".idea" != s);
       }
 	}
 }

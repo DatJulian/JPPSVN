@@ -10,12 +10,15 @@
 
 		public bool AutoFindIDEA { get; set; }
 
-		public SettingsData(SettingsData settings) {
+		public bool OnlySrcFolderFromProject { get; set; }
+
+      public SettingsData(SettingsData settings) {
 			RepositoryFolder = settings.RepositoryFolder;
 			AutoFindIDEA = settings.AutoFindIDEA;
 			IDEAPath = settings.IDEAPath;
 			RepositoryURL = settings.RepositoryURL;
 			OutputFolder = settings.OutputFolder;
+			OnlySrcFolderFromProject = settings.OnlySrcFolderFromProject;
       }
       
 		public SettingsData(Properties.Settings settings) {
@@ -24,6 +27,7 @@
 			IDEAPath = settings.IDEAPath;
 			RepositoryURL = settings.RepositoryURL;
 			OutputFolder = settings.OutputFolder;
+			OnlySrcFolderFromProject = settings.OnlySrcFolderFromProject;
 		}
 
 		public void Save(Properties.Settings settings) {
@@ -32,6 +36,7 @@
 			settings.IDEAPath = IDEAPath;
 			settings.RepositoryURL = RepositoryURL;
 			settings.OutputFolder = OutputFolder;
-		}
+			settings.OnlySrcFolderFromProject = OnlySrcFolderFromProject;
+      }
 	}
 }

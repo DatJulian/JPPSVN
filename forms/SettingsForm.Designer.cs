@@ -28,6 +28,7 @@
          System.Windows.Forms.Label label2;
          System.Windows.Forms.Label label3;
          System.Windows.Forms.Label label4;
+         System.Windows.Forms.Label label5;
          this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
          this.outputFolderSelectionComponent = new JPPSVN.FolderSelectionComponent();
          this.repositoryFolderSelectionComponent = new JPPSVN.FolderSelectionComponent();
@@ -39,10 +40,12 @@
          this.okButton = new System.Windows.Forms.Button();
          this.cancelButton = new System.Windows.Forms.Button();
          this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+         this.onlySrcCheckBox = new System.Windows.Forms.CheckBox();
          label1 = new System.Windows.Forms.Label();
          label2 = new System.Windows.Forms.Label();
          label3 = new System.Windows.Forms.Label();
          label4 = new System.Windows.Forms.Label();
+         label5 = new System.Windows.Forms.Label();
          this.tableLayoutPanel1.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
          this.tableLayoutPanel2.SuspendLayout();
@@ -106,16 +109,19 @@
          this.tableLayoutPanel1.Controls.Add(this.ideaFolderSelectionComponent, 1, 2);
          this.tableLayoutPanel1.Controls.Add(label4, 0, 4);
          this.tableLayoutPanel1.Controls.Add(this.repositoryURLTextBox, 1, 4);
+         this.tableLayoutPanel1.Controls.Add(label5, 0, 5);
+         this.tableLayoutPanel1.Controls.Add(this.onlySrcCheckBox, 1, 5);
          this.tableLayoutPanel1.Controls.Add(this.ideaFindAutomaticCheckBox, 1, 3);
          this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
          this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-         this.tableLayoutPanel1.RowCount = 5;
+         this.tableLayoutPanel1.RowCount = 6;
          this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
          this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
          this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
          this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
          this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.tableLayoutPanel1.Size = new System.Drawing.Size(439, 124);
+         this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+         this.tableLayoutPanel1.Size = new System.Drawing.Size(439, 144);
          this.tableLayoutPanel1.TabIndex = 0;
          // 
          // outputFolderSelectionComponent
@@ -125,10 +131,18 @@
             | System.Windows.Forms.AnchorStyles.Right)));
          this.outputFolderSelectionComponent.AutoSize = true;
          this.outputFolderSelectionComponent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+         this.outputFolderSelectionComponent.ColumnCount = 2;
+         this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+         this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+         this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+         this.outputFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
          this.outputFolderSelectionComponent.Location = new System.Drawing.Point(98, 0);
          this.outputFolderSelectionComponent.Margin = new System.Windows.Forms.Padding(0, 0, 16, 0);
          this.outputFolderSelectionComponent.Name = "outputFolderSelectionComponent";
          this.outputFolderSelectionComponent.Path = "";
+         this.outputFolderSelectionComponent.RowCount = 1;
+         this.outputFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+         this.outputFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
          this.outputFolderSelectionComponent.Size = new System.Drawing.Size(325, 29);
          this.outputFolderSelectionComponent.TabIndex = 0;
          // 
@@ -139,10 +153,18 @@
             | System.Windows.Forms.AnchorStyles.Right)));
          this.repositoryFolderSelectionComponent.AutoSize = true;
          this.repositoryFolderSelectionComponent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+         this.repositoryFolderSelectionComponent.ColumnCount = 2;
+         this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+         this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+         this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+         this.repositoryFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
          this.repositoryFolderSelectionComponent.Location = new System.Drawing.Point(98, 29);
          this.repositoryFolderSelectionComponent.Margin = new System.Windows.Forms.Padding(0, 0, 16, 0);
          this.repositoryFolderSelectionComponent.Name = "repositoryFolderSelectionComponent";
          this.repositoryFolderSelectionComponent.Path = "";
+         this.repositoryFolderSelectionComponent.RowCount = 1;
+         this.repositoryFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+         this.repositoryFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
          this.repositoryFolderSelectionComponent.Size = new System.Drawing.Size(325, 29);
          this.repositoryFolderSelectionComponent.TabIndex = 0;
          // 
@@ -153,10 +175,18 @@
             | System.Windows.Forms.AnchorStyles.Right)));
          this.ideaFolderSelectionComponent.AutoSize = true;
          this.ideaFolderSelectionComponent.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+         this.ideaFolderSelectionComponent.ColumnCount = 2;
+         this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+         this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+         this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+         this.ideaFolderSelectionComponent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
          this.ideaFolderSelectionComponent.Location = new System.Drawing.Point(98, 58);
          this.ideaFolderSelectionComponent.Margin = new System.Windows.Forms.Padding(0, 0, 16, 0);
          this.ideaFolderSelectionComponent.Name = "ideaFolderSelectionComponent";
          this.ideaFolderSelectionComponent.Path = "";
+         this.ideaFolderSelectionComponent.RowCount = 1;
+         this.ideaFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
+         this.ideaFolderSelectionComponent.RowStyles.Add(new System.Windows.Forms.RowStyle());
          this.ideaFolderSelectionComponent.Size = new System.Drawing.Size(325, 29);
          this.ideaFolderSelectionComponent.TabIndex = 0;
          // 
@@ -199,7 +229,7 @@
          this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
          this.tableLayoutPanel2.Controls.Add(this.okButton, 0, 0);
          this.tableLayoutPanel2.Controls.Add(this.cancelButton, 1, 0);
-         this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 130);
+         this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 150);
          this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
          this.tableLayoutPanel2.Name = "tableLayoutPanel2";
          this.tableLayoutPanel2.RowCount = 1;
@@ -246,8 +276,31 @@
          this.tableLayoutPanel3.RowCount = 2;
          this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
          this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-         this.tableLayoutPanel3.Size = new System.Drawing.Size(445, 159);
+         this.tableLayoutPanel3.Size = new System.Drawing.Size(445, 179);
          this.tableLayoutPanel3.TabIndex = 2;
+         // 
+         // label5
+         // 
+         label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+         label5.AutoSize = true;
+         label5.Location = new System.Drawing.Point(3, 127);
+         label5.Name = "label5";
+         label5.Size = new System.Drawing.Size(92, 13);
+         label5.TabIndex = 1;
+         label5.Text = "Studentencode";
+         // 
+         // onlySrcCheckBox
+         // 
+         this.onlySrcCheckBox.Anchor = System.Windows.Forms.AnchorStyles.Right;
+         this.onlySrcCheckBox.AutoSize = true;
+         this.onlySrcCheckBox.Location = new System.Drawing.Point(328, 125);
+         this.onlySrcCheckBox.Margin = new System.Windows.Forms.Padding(0, 0, 16, 0);
+         this.onlySrcCheckBox.Name = "onlySrcCheckBox";
+         this.onlySrcCheckBox.Size = new System.Drawing.Size(95, 17);
+         this.onlySrcCheckBox.TabIndex = 5;
+         this.onlySrcCheckBox.Text = "Nur src Ordner";
+         this.onlySrcCheckBox.UseVisualStyleBackColor = true;
+         this.onlySrcCheckBox.CheckedChanged += new System.EventHandler(this.ideaFindAutomaticCheckBox_CheckedChanged);
          // 
          // SettingsForm
          // 
@@ -286,5 +339,6 @@
         private System.Windows.Forms.CheckBox ideaFindAutomaticCheckBox;
       private System.Windows.Forms.TextBox repositoryURLTextBox;
       private System.Windows.Forms.ErrorProvider errorProvider;
+      private System.Windows.Forms.CheckBox onlySrcCheckBox;
    }
 }

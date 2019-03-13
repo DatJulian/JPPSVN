@@ -64,14 +64,14 @@ namespace JPPSVN.tasks {
 				}
 
 				Status = "Updating clearnames";
-				SubversionHelper.UpdateDirNonRecursive(Client, PathBuilder.ViewsPath);
-				SubversionHelper.UpdateDirNonRecursive(Client, PathBuilder.ClearnamePath);
+				SubversionHelper.UpdateDir(Client, PathBuilder.ViewsPath, SvnDepth.Children);
+				SubversionHelper.UpdateDir(Client, PathBuilder.ClearnamePath, SvnDepth.Children);
 				
 				Client.GetProperty(new SvnPathTarget(PathBuilder.ClearnamePath), "svn:externals", out string property);
 				ClearnameResolver = ClearnameResolver.FromExternals(property);
 
 				Status = "Updating projects";
-				SubversionHelper.UpdateDirNonRecursive(Client, PathBuilder.ProjectsPath);
+				SubversionHelper.UpdateDir(Client, PathBuilder.ProjectsPath, SvnDepth.Children);
 
 				Projects = GetSubDirectories(PathBuilder.ProjectsPath);
 			}

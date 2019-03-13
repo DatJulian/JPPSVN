@@ -21,7 +21,7 @@ namespace JPPSVN.tasks {
 
       protected void CopyTests() {
 			Status = "Update Tests";
-			SubversionHelper.UpdateDir(Client, TestSource, out _);
+			SubversionHelper.UpdateDir(Client, TestSource, SvnDepth.Infinity);
 
 			Status = "Kopiere Tests";
 			DirectoryUtil.CopyIgnoreNotExists(TestSource, Destination, true);

@@ -26,32 +26,33 @@ namespace JPPSVN.jpp {
 			return new StatusBackgroundWorker(Label);
 		}
 
-		private CopyProjectTask.CopyProjectArgs CreateCopyProjectArgs(Data data, string destination) {
+		private CopyProjectTask.CopyProjectArgs CreateCopyProjectArgs(Data data, string destination, bool onlySrcFolderFromProject) {
 			return new CopyProjectTask.CopyProjectArgs(
 				destination,
 				data.Revision,
 				PathBuilder.GetUserProjects(data.User),
-				data.Project
-			);
+				data.Project,
+				onlySrcFolderFromProject
+         );
 		}
 
-      public StatusBackgroundWorker CreateCopyAllTask(Data data, string destination) {
+      public StatusBackgroundWorker CreateCopyAllTask(Data data, string destination, bool onlySrcFolderFromProject) {
 			StatusBackgroundWorker worker = CreateWorker();
 			CopyProjectAndTestsTask task = new CopyProjectAndTestsTask(
 				worker, 
 				Client,
-				CreateCopyProjectArgs(data, destination), 
+				CreateCopyProjectArgs(data, destination, onlySrcFolderFromProject), 
 				PathBuilder.GetProjectTests(data.Project));
 			worker.DoWork += task.DoWork;
 	      return worker;
       }
 
-		public StatusBackgroundWorker CreateCopyProjectTask(Data data, string destination) {
+		public StatusBackgroundWorker CreateCopyProjectTask(Data data, string destination, bool onlySrcFolderFromProject) {
 			StatusBackgroundWorker worker = CreateWorker();
 			CopyProjectTask task = new CopyProjectTask(
 				worker,
 				Client,
-				CreateCopyProjectArgs(data, destination));
+				CreateCopyProjectArgs(data, destination, onlySrcFolderFromProject));
 			worker.DoWork += task.DoWork;
 			return worker;
 		}

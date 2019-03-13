@@ -15,7 +15,9 @@ namespace JPPSVN.forms {
 
 		public string RepositoryURL { get => repositoryURLTextBox.Text; set => repositoryURLTextBox.Text = value; }
 
-		private int errors = 0;
+		public bool OnlySrcFolderFromProject { get => onlySrcCheckBox.Checked; set => onlySrcCheckBox.Checked = value; }
+
+      private int errors = 0;
 		
       public SettingsForm(SettingsData settingsData) {
 	      SettingsData = settingsData;
@@ -50,6 +52,7 @@ namespace JPPSVN.forms {
 			IDEAFolder = SettingsData.IDEAPath;
 			AutoFindIDEA = SettingsData.AutoFindIDEA;
 			RepositoryURL = SettingsData.RepositoryURL;
+			OnlySrcFolderFromProject = SettingsData.OnlySrcFolderFromProject;
 		}
 
 		private void SaveToSettings() {
@@ -58,7 +61,8 @@ namespace JPPSVN.forms {
 			SettingsData.IDEAPath = IDEAFolder;
 			SettingsData.AutoFindIDEA = AutoFindIDEA;
 			SettingsData.RepositoryURL = RepositoryURL;
-		}
+			SettingsData.OnlySrcFolderFromProject = OnlySrcFolderFromProject;
+      }
 
 		protected override void OnLoad(EventArgs e) {
 			base.OnLoad(e);

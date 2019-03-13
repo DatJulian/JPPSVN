@@ -16,7 +16,8 @@ namespace JPPSVN.forms {
 		private IntelliJIDEA intelliJIDEA;
 		private TaskDispatcher taskDispatcher;
 		private RepositoryActions repositoryActions;
-		private SettingsData currentSettings = null;
+		private bool onlySrcFolderFromProject;
+      private SettingsData currentSettings = null;
 		private string lastSelectedProject = null;
 		private ClearnameResolver clearNames = null;
 		private bool changingUser = false;
@@ -151,7 +152,7 @@ namespace JPPSVN.forms {
 			pathBuilder = new PathBuilder(settings.RepositoryFolder);
 
 			repositoryActions.PathBuilder = pathBuilder;
-
+			onlySrcFolderFromProject = settings.OnlySrcFolderFromProject;
          UpdateIntelliJPath(settings.AutoFindIDEA, settings.IDEAPath);
       }
 
@@ -314,7 +315,7 @@ namespace JPPSVN.forms {
 			StatusBackgroundWorker task = new StatusBackgroundWorker(toolStripStatusLabel);
 			task.DoWork += (o, ev) => {
 				task.Status = "Aktualisiere Ordner \"" + path + "\"";
-				SubversionHelper.UpdateDir(repositoryActions.Client, path, out _, revision);
+				SubversionHelper.UpdateDir(repositoryActions.Client, path, SvnDepth.Infinity, revision);
 			};
 			task.RunWorkerCompleted += (sender, args) => {
 				if(args.Error != null) HandleBackgroundException(args.Error);
@@ -369,7 +370,7 @@ namespace JPPSVN.forms {
 			if(taskDispatcher.IsTaskRunning || !HasProject || !HasUser) return;
 			var path = MakeOutputPath();
 			var data = MakeSnapshot();
-			var task = repositoryActions.CreateCopyAllTask(data, path);
+			var task = repositoryActions.CreateCopyAllTask(data, path, onlySrcFolderFromProject);
 			task.RunWorkerCompleted += (s, ev) => { HandleExecutionFinished(path, data, ev); };
 			taskDispatcher.Run(task);
 		}
@@ -378,7 +379,7 @@ namespace JPPSVN.forms {
 			if (taskDispatcher.IsTaskRunning || !HasProject || !HasUser) return;
          var path = MakeOutputPath();
 			var data = MakeSnapshot();
-			var task = repositoryActions.CreateCopyProjectTask(data, path);
+			var task = repositoryActions.CreateCopyProjectTask(data, path, onlySrcFolderFromProject);
 			task.RunWorkerCompleted += (s, ev) => { HandleExecutionFinished(path, data, ev); };
 			taskDispatcher.Run(task);
 		}
